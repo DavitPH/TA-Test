@@ -20,21 +20,25 @@
             color: white;
             padding: 1.5rem;
             border-radius: 0.75rem;
-            height: calc(100vh - 2rem);
+            /* Default for larger screens */
+            height: calc(100vh - 8rem);
+            /* Adjusted for header + main padding */
             overflow-y: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
+            width: 250px;
+            /* Default width for larger screens */
         }
 
-        /* Responsive adjustments for sidebar */
+        /* Mobile adjustments for sidebar */
         @media (max-width: 767px) {
             .sidebar {
                 width: 100%;
                 /* Full width on small screens */
                 height: auto;
-                /* Auto height */
+                /* Auto height on small screens */
                 margin-bottom: 1rem;
-                /* Space below sidebar */
+                /* Space below sidebar when stacked */
             }
         }
 
@@ -76,27 +80,31 @@
             transition: transform 0.2s;
             width: 100%;
             padding: 1rem;
-            /* cursor: pointer; REMOVED from general style */
         }
 
         .species-card:hover {
             transform: translateY(-5px);
         }
 
-        /* Style for clickable species cards (only Bekicot) */
         .species-card.clickable {
             cursor: pointer;
         }
-
 
         .search-input {
             border: 1px solid #cbd5e0;
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            width: 100%;
-            /* Ini akan di-override oleh w-xx di HTML */
             font-size: 1rem;
+            width: 100%;
+            /* Default to full width for mobile first */
+            outline: none;
+            transition: border-color 0.2s;
         }
+
+        .search-input:focus {
+            border-color: #1a4a2a;
+        }
+
 
         .btn-primary {
             background-color: #1a4a2a;
@@ -105,6 +113,7 @@
             border-radius: 0.5rem;
             font-weight: 600;
             transition: background-color 0.2s;
+            border: none;
         }
 
         .btn-primary:hover {
@@ -118,6 +127,7 @@
             border-radius: 0.5rem;
             font-weight: 500;
             transition: background-color 0.2s;
+            border: none;
         }
 
         .pagination-btn:hover {
@@ -133,7 +143,9 @@
         @media (max-width: 767px) {
             header {
                 flex-direction: column;
+                /* Stack logo/title and search/profile vertically */
                 align-items: flex-start;
+                /* Align stacked items to the start */
                 padding-bottom: 1rem;
             }
 
@@ -145,9 +157,11 @@
             header>div:last-child {
                 /* Search and profile */
                 width: 100%;
+                /* Take full width */
                 flex-direction: row;
                 /* Keep search and DA side-by-side */
                 justify-content: space-between;
+                /* Space them out */
                 align-items: center;
             }
 
@@ -156,10 +170,13 @@
                 /* Adjust width to make space for DA avatar */
             }
 
-            .flex-1.flex.p-4.space-x-4 {
+            /* Main content area layout */
+            .flex-1.flex.p-4 {
+                /* This is the div holding sidebar and main content */
                 flex-direction: column;
+                /* Stack sidebar and main content */
                 gap: 1rem;
-                /* Use gap instead of space-x for column layout */
+                /* Use gap for spacing when stacked */
                 padding: 1rem;
                 /* Adjust padding for smaller screens */
             }
@@ -178,19 +195,19 @@
 
 <body>
     <div class="min-h-screen flex flex-col">
-        <header class="bg-white shadow-md p-4 flex items-center justify-between">
+        <header class="bg-white shadow-md p-4 flex flex-col md:flex-row items-center justify-between">
             <div class="flex items-center space-x-2">
                 <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
             </div>
-            <div class="flex items-center space-x-4 w-full sm:w-auto">
-                <div class="relative w-full sm:w-80"> <input type="text" placeholder="Cari spesies..."
+            <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
+                <div class="relative w-full md:w-80"> <input type="text" placeholder="Cari spesies..."
                         class="search-input pr-10" id="searchInput">
                     <i
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"></i>
                 </div>
                 <a href="#"
-                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg">
+                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
                     DA
                 </a>
             </div>
@@ -284,7 +301,6 @@
         const paginationControls = document.getElementById('pagination-controls');
         const breadcrumbsSpan = document.getElementById('breadcrumbs');
 
-        // searchInput sudah didefinisikan di luar DOMContentLoaded
         const searchInput = document.getElementById('searchInput');
 
         let currentFilterCategory = "Semua Invertebrata";
