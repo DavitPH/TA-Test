@@ -60,7 +60,9 @@
             border: 1px solid #cbd5e0;
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
+            /* Tambahkan lebar spesifik agar tidak terpotong */
             width: 320px;
+            /* w-80 */
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
@@ -342,9 +344,11 @@
 
         /* Perubahan untuk map-container menjadi elemen Leaflet */
         #speciesMapContainer {
+            /* ID diubah untuk menghindari konflik dengan #map di tambahPeta.html */
             width: 80%;
             max-width: 700px;
             height: 400px;
+            /* Tinggi tetap untuk peta interaktif */
             background-color: #f0f0f0;
             border-radius: 0.5rem;
             border: 1px solid #ddd;
@@ -352,6 +356,7 @@
             margin-left: auto;
             margin-right: auto;
             z-index: 0;
+            /* Penting agar Leaflet bekerja dengan benar */
         }
 
         /* Gaya untuk tombol filter peta jika ada banyak peta GeoJSON */
@@ -379,6 +384,7 @@
 
         .map-filter-buttons button.active {
             background-color: #1a4a2a;
+            /* Warna hijau tema */
             color: white;
             border-color: #1a4a2a;
         }
@@ -526,93 +532,187 @@
         }
 
 
-        /* --- MODIFIKASI DIMULAI DI SINI --- */
-        /* Memastikan elemen utama tetap dalam layout horizontal (flex-row) */
+        /* Responsiveness */
+        @media (max-width: 1024px) {
+            .container.header-container {
+                /* Kelas ini tidak lagi relevan untuk header baru, tapi bisa dibiarkan jika ada elemen lain yang memakainya */
+                flex-wrap: wrap;
+                justify-content: center;
+            }
 
-        /* Overide Tailwind's default responsive behavior for the main content area */
-        .flex-1.flex.p-4.space-x-4 {
-            flex-direction: row !important;
-            /* Paksa selalu row */
-            /* Anda mungkin perlu menyesuaikan padding atau gap di sini */
-            padding: 1rem;
-            gap: 1rem;
+            .header-right {
+                /* Kelas ini mungkin tidak ada lagi di struktur baru, tapi biarkan aturan ini jika ada yang memakainya */
+                width: 100%;
+                justify-content: center;
+                margin-top: 1rem;
+                flex-direction: column;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .flex-1.flex.p-4.space-x-4 {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .sidebar {
+                width: 100%;
+                margin-bottom: 0;
+                height: auto;
+            }
+
+            .main-content {
+                padding: 1rem;
+                min-height: auto;
+            }
+
+            .species-gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main-image-wrapper {
+                flex-basis: 100%;
+                max-width: 100%;
+                height: 250px;
+                aspect-ratio: auto;
+            }
+
+            .thumbnail-gallery {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100%;
+                max-height: none;
+                overflow-y: visible;
+                flex-basis: 100%;
+                padding-right: 0;
+            }
+
+            .thumbnail-gallery img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .thumbnail-gallery .thumb-arrow {
+                display: none;
+            }
+
+            .species-tabs button {
+                flex-basis: auto;
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .comment-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .comment-avatar {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .nested-comment {
+                margin-left: 1rem;
+                padding-left: 0.5rem;
+            }
+
+            .nav-item.active {
+                background-color: #2a6a3a;
+                font-weight: 600;
+            }
+
+            #speciesMapContainer {
+                /* Changed from .map-container to #speciesMapContainer */
+                width: 100%;
+                max-width: 100%;
+                height: 300px;
+                /* Adjusted height for mobile map */
+            }
+
+            .trash-icon {
+                top: 0.75rem;
+                right: 0.75rem;
+            }
         }
 
-        /* Pastikan sidebar memiliki lebar tetap, tanpa perubahan responsif */
-        .sidebar {
-            width: 250px !important;
-            /* Paksa lebar tetap */
-            height: calc(100vh - 8rem) !important;
-            /* Paksa tinggi tetap */
-        }
+        @media (max-width: 767px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-bottom: 1rem;
+            }
 
-        /* Pastikan elemen-elemen galeri gambar tetap berdampingan */
-        .species-gallery {
-            flex-direction: row !important;
-            /* Paksa selalu row */
-            align-items: flex-start !important;
-            /* Pastikan alignment tetap */
-        }
+            header>div:first-child {
+                /* Logo and title */
+                margin-bottom: 1rem;
+            }
 
-        .main-image-wrapper {
-            flex-basis: 65% !important;
-            /* Paksa basis lebar */
-            max-width: 65% !important;
-            /* Paksa lebar maksimum */
-            height: auto !important;
-            aspect-ratio: 4/3;
-            min-height: 220px !important;
-        }
+            header>div:last-child {
+                /* Search and profile */
+                width: 100%;
+                flex-direction: row;
+                /* Keep search and DA side-by-side */
+                justify-content: space-between;
+                align-items: center;
+            }
 
-        .thumbnail-gallery {
-            flex-direction: column !important;
-            /* Paksa selalu column */
-            max-height: 220px !important;
-            overflow-y: auto !important;
-            flex-basis: 35% !important;
-            /* Paksa basis lebar */
-            padding-right: 0.05rem !important;
-        }
+            .search-input {
+                width: calc(100% - 3rem);
+                /* Adjust width to make space for DA avatar */
+            }
 
-        .thumbnail-gallery img {
-            width: 90px !important;
-            /* Paksa lebar thumbnail */
-            height: 90px !important;
-            /* Paksa tinggi thumbnail */
-        }
+            .flex-1.flex.p-4.space-x-4 {
+                flex-direction: column;
+                gap: 1rem;
+                /* Use gap instead of space-x for column layout */
+                padding: 1rem;
+                /* Adjust padding for smaller screens */
+            }
 
-        /* Pastikan tab tidak menumpuk */
-        .species-tabs button {
-            flex-basis: auto !important;
-            padding: 0.75rem 1.0rem !important;
-            font-size: 1rem !important;
-            /* Sesuaikan ukuran font jika perlu */
-        }
+            .sidebar {
+                width: 100%;
+                margin-bottom: 1rem;
+                /* Space below sidebar when stacked */
+            }
 
-        /* Pastikan komentar tidak menumpuk di detail */
-        .comment-item {
-            flex-direction: row !important;
-            /* Paksa selalu row */
-            align-items: flex-start !important;
-        }
+            .species-header h1 {
+                font-size: 1.75rem;
+                flex-direction: column;
+                /* Stack common name and status */
+                align-items: flex-start;
+            }
 
-        .comment-avatar {
-            margin-right: 1rem !important;
-            margin-bottom: 0 !important;
-        }
+            .species-header p {
+                font-size: 1rem;
+            }
 
-        .nested-comment {
-            margin-left: 2rem !important;
-            padding-left: 1rem !important;
-        }
+            .species-tabs button {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.8rem;
+            }
 
-        /* Pastikan header juga tidak menumpuk */
-        header {
-            flex-wrap: nowrap !important;
-            /* Cegah header wrap pada layar kecil */
-        }
+            .comment-form button {
+                width: 100%;
+            }
 
-        /* --- MODIFIKASI BERAKHIR DI SINI --- */
+            .action-buttons {
+                width: 100%;
+                /* Full width for action buttons */
+                display: flex;
+                /* Ensure buttons stack or wrap if many */
+                justify-content: flex-start;
+                /* Align buttons to start */
+                gap: 0.5rem;
+                /* Space between buttons */
+                flex-wrap: wrap;
+                /* Allow buttons to wrap */
+            }
+        }
     </style>
 </head>
 
@@ -623,9 +723,9 @@
                 <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative w-80"> <input type="text" placeholder="Cari spesies..." class="search-input pr-10"
-                        id="searchInput">
+            <div class="flex items-center space-x-4 w-full md:w-auto">
+                <div class="relative w-full md:w-80"> <input type="text" placeholder="Cari spesies..."
+                        class="search-input pr-10" id="searchInput">
                     <i id="searchIcon"
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer"></i>
                 </div>
@@ -636,8 +736,8 @@
             </div>
         </header>
 
-        <div class="flex-1 flex p-4 space-x-4">
-            <aside class="sidebar">
+        <div class="flex-1 flex flex-col md:flex-row p-4 gap-4 md:space-x-4">
+            <aside class="sidebar w-full md:w-1/5">
                 <nav id="taxonomy-nav">
                 </nav>
             </aside>
@@ -662,12 +762,13 @@
                         </div>
                     </div>
 
-                    <div class="species-gallery mb-8">
-                        <div class="main-image-wrapper">
-                            <img id="mainSpeciesImage" src="" alt="Main species image" class="rounded-lg">
+                    <div class="species-gallery mb-8 flex-col md:flex-row">
+                        <div class="main-image-wrapper w-full md:w-auto"> <img id="mainSpeciesImage" src=""
+                                alt="Main species image" class="rounded-lg">
                         </div>
-                        <div class="thumbnail-gallery flex flex-col justify-between items-center">
-                            <div id="thumbnailContainer" class="flex flex-col gap-2 w-full">
+                        <div
+                            class="thumbnail-gallery flex flex-row md:flex-col justify-center md:justify-between items-center w-full md:w-auto">
+                            <div id="thumbnailContainer" class="flex flex-row md:flex-col gap-2 w-full justify-center">
                             </div>
                         </div>
                     </div>
