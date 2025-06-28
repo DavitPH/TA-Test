@@ -19,6 +19,7 @@
             background-color: #f0f2f5;
         }
 
+        /* Kelas .container ini tidak lagi memengaruhi header secara langsung */
         .container {
             max-width: 1200px;
             margin-left: auto;
@@ -27,6 +28,7 @@
             padding-right: 1rem;
         }
 
+        /* Styling untuk header utama (Sekarang mirip dengan index.html) */
         .header {
             background-color: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -38,6 +40,7 @@
             font-size: 1.5rem;
         }
 
+        /* Menyamakan warna btn-primary dengan tema hijau tua */
         .btn-primary {
             background-color: #1a4a2a;
             color: white;
@@ -52,12 +55,14 @@
             background-color: #2a6a3a;
         }
 
+        /* Lebar search input disamakan agar konsisten dengan index.html */
         .search-input {
             border: 1px solid #cbd5e0;
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            width: 100%;
-            /* Default to full width for mobile first */
+            /* Tambahkan lebar spesifik agar tidak terpotong */
+            width: 320px;
+            /* w-80 */
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
@@ -101,33 +106,75 @@
             pointer-events: none;
         }
 
+        /* Sidebar - REVERTED TO PREVIOUS WORKING BEHAVIOR */
         .sidebar {
             background-color: #1a4a2a;
             color: white;
             padding: 1.5rem;
             border-radius: 0.75rem;
+            overflow-y: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
             width: 250px;
             /* Default width for larger screens */
             height: calc(100vh - 8rem);
-            /* Adjusted for header + main padding */
-            overflow-y: auto;
-            /* Enable vertical scrolling for sidebar */
+            /* Occupy remaining vertical space, allowing scroll */
         }
 
-        /* Mobile adjustments for sidebar */
-        @media (max-width: 767px) {
-            .sidebar {
-                width: 100%;
-                /* Full width on small screens */
-                height: 250px;
-                /* Fixed height for scrollable sidebar on mobile */
-                margin-bottom: 1rem;
-                /* Space below sidebar when stacked */
-            }
+        /* No specific mobile height/overflow changes for sidebar here; it should naturally stack and scroll */
+        /* Its responsiveness will be handled by the parent flex container and its default height */
+
+
+        .sidebar .nav-item-header {
+            padding: 0.5rem 0.5rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            font-weight: bold;
         }
 
+        .sidebar .nav-item-header:hover {
+            background-color: #2a6a3a;
+        }
+
+        .sidebar .nav-item-header.active {
+            background-color: #2a6a3a;
+        }
+
+        .sidebar .nav-list-item {
+            display: block;
+            padding: 0.5rem 0.5rem;
+            color: white;
+            transition: background-color 0.2s ease;
+            border-radius: 0.5rem;
+        }
+
+        .sidebar .nav-list-item:hover {
+            background-color: #2a6a3a;
+        }
+
+        .sidebar .nav-list-item.active {
+            background-color: #2a6a3a;
+            font-weight: 600;
+        }
+
+        /* Indentation for taxonomy levels */
+        .indent-0 {
+            padding-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .indent-1 {
+            padding-left: 1.5rem;
+            font-weight: normal;
+        }
+
+        .indent-2 {
+            padding-left: 2.5rem;
+            font-weight: normal;
+        }
+
+        /* Consistent main content */
         .main-content {
             background-color: white;
             padding: 1.5rem;
@@ -137,6 +184,7 @@
             min-height: 800px;
         }
 
+        /* Menyamakan warna btn di action-buttons dengan tema hijau tua */
         .species-header .action-buttons .btn {
             background-color: #1a4a2a;
             color: white;
@@ -156,8 +204,11 @@
             font-size: 2.25rem;
             font-weight: 700;
             display: flex;
+            /* Make h1 a flex container */
             align-items: center;
+            /* Vertically align items */
             gap: 0.75rem;
+            /* Space between common name and status */
         }
 
         .species-header p {
@@ -315,12 +366,13 @@
             background-color: #fcfcfc;
         }
 
+        /* Perubahan untuk map-container menjadi elemen Leaflet */
         #speciesMapContainer {
-            width: 100%;
-            /* Default to full width for mobile first */
+            /* ID diubah untuk menghindari konflik dengan #map di tambahPeta.html */
+            width: 80%;
             max-width: 700px;
-            height: 300px;
-            /* Adjusted height for mobile map */
+            height: 400px;
+            /* Tinggi tetap untuk peta interaktif */
             background-color: #f0f0f0;
             border-radius: 0.5rem;
             border: 1px solid #ddd;
@@ -328,8 +380,10 @@
             margin-left: auto;
             margin-right: auto;
             z-index: 0;
+            /* Penting agar Leaflet bekerja dengan benar */
         }
 
+        /* Gaya untuk tombol filter peta jika ada banyak peta GeoJSON */
         .map-filter-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -354,6 +408,7 @@
 
         .map-filter-buttons button.active {
             background-color: #1a4a2a;
+            /* Warna hijau tema */
             color: white;
             border-color: #1a4a2a;
         }
@@ -500,72 +555,12 @@
             background-color: #dc3545;
         }
 
-        /* Responsiveness Media Queries */
-        @media (min-width: 768px) {
 
-            /* Medium screens and up */
-            .sidebar {
-                width: 250px;
-                height: calc(100vh - 8rem);
-                overflow-y: auto;
-            }
-
-            .species-gallery {
-                flex-direction: row;
-                /* Desktop: main image and thumbnails side-by-side */
-                align-items: flex-start;
-            }
-
-            .main-image-wrapper {
-                max-width: 65%;
-                flex-basis: 65%;
-                height: auto;
-                aspect-ratio: 4/3;
-            }
-
-            .thumbnail-gallery {
-                flex-direction: column;
-                /* Desktop: thumbnails stacked vertically */
-                overflow-y: auto;
-                /* Enable vertical scrolling */
-                overflow-x: hidden;
-                /* Hide horizontal scroll on desktop */
-                max-height: 220px;
-                flex-basis: 35%;
-                flex-wrap: nowrap;
-                /* Ensure no wrapping in column */
-            }
-
-            /* Ensure the inner thumbnail container also stacks vertically on desktop */
-            .thumbnail-gallery #thumbnailContainer {
-                flex-direction: column;
-                justify-content: flex-start;
-                /* Align to top */
-            }
-
-            #speciesMapContainer {
-                height: 400px;
-            }
-
-            .species-header {
-                flex-direction: row;
-                align-items: center;
-            }
-
-            .species-header h1 {
-                flex-direction: row;
-                align-items: center;
-                font-size: 2.25rem;
-            }
-
-            .species-header .action-buttons {
-                margin-top: 0;
-            }
-        }
-
+        /* Responsiveness */
+        /* Changes for mobile layout will be applied here using max-width */
         @media (max-width: 767px) {
 
-            /* Small screens (mobile) */
+            /* Header adjustments for mobile */
             header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -587,10 +582,27 @@
                 width: calc(100% - 3rem);
             }
 
-            .flex-1.flex.p-4 {
+            /* Main content area layout for mobile */
+            .flex-1.flex.p-4.space-x-4 {
+                /* Target this specific container div */
                 flex-direction: column;
+                /* Stack sidebar and main content */
                 gap: 1rem;
+                /* Space between stacked elements */
                 padding: 1rem;
+                /* Adjust padding */
+            }
+
+            /* Sidebar on mobile - revert to original desired behavior: auto height, still scrollable if content overflows */
+            .sidebar {
+                width: 100%;
+                /* Full width on mobile */
+                height: auto;
+                /* Allow content to dictate height, enable scrolling for overflow */
+                max-height: 50vh;
+                /* Optional: limit max height to 50% of viewport for very long lists */
+                margin-bottom: 1rem;
+                /* Space below sidebar */
             }
 
             .main-content {
@@ -598,6 +610,7 @@
                 min-height: auto;
             }
 
+            /* Species Header on mobile */
             .species-header {
                 flex-direction: column;
                 align-items: flex-start;
@@ -622,11 +635,58 @@
                 margin-top: 1rem;
             }
 
+            /* Species Gallery on mobile */
+            .species-gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .main-image-wrapper {
+                flex-basis: 100%;
+                max-width: 100%;
+                height: 250px;
+                aspect-ratio: auto;
+            }
+
+            .thumbnail-gallery {
+                flex-direction: row;
+                /* Mobile: thumbnails in a row */
+                flex-wrap: nowrap;
+                /* Prevent wrapping */
+                justify-content: flex-start;
+                /* Align to start */
+                width: 100%;
+                /* Take full width */
+                max-height: none;
+                /* No max height constraint */
+                overflow-x: auto;
+                /* Enable horizontal scroll */
+                overflow-y: hidden;
+                /* Hide vertical overflow */
+                padding-right: 0;
+            }
+
+            .thumbnail-gallery img {
+                width: 80px;
+                height: 80px;
+                flex-shrink: 0;
+                /* Important to prevent shrinking */
+            }
+
             .species-tabs button {
+                flex-basis: auto;
                 padding: 0.75rem 0.5rem;
                 font-size: 0.85rem;
             }
 
+            /* Map on mobile */
+            #speciesMapContainer {
+                width: 100%;
+                max-width: 100%;
+                height: 300px;
+            }
+
+            /* Comments section on mobile */
             .comment-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -647,31 +707,66 @@
                 right: 0.75rem;
             }
         }
+
+        /* Desktop specific styles (min-width applies from this breakpoint onwards) */
+        @media (min-width: 768px) {
+            .species-gallery {
+                flex-direction: row;
+                /* Desktop: main image and thumbnails side-by-side */
+            }
+
+            .main-image-wrapper {
+                flex-basis: 65%;
+                max-width: 65%;
+            }
+
+            .thumbnail-gallery {
+                flex-direction: column;
+                /* Desktop: thumbnails stacked vertically */
+                overflow-y: auto;
+                /* Enable vertical scrolling */
+                overflow-x: hidden;
+                /* Hide horizontal scroll on desktop */
+                max-height: 220px;
+                flex-basis: 35%;
+            }
+
+            /* Ensure the inner thumbnail container also stacks vertically on desktop */
+            .thumbnail-gallery #thumbnailContainer {
+                flex-direction: column;
+                justify-content: flex-start;
+                /* Align to top */
+            }
+
+            #speciesMapContainer {
+                height: 400px;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="min-h-screen flex flex-col">
-        <header class="bg-white shadow-md p-4 flex flex-col md:flex-row items-center justify-between">
+        <header class="bg-white shadow-md p-4 flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
             </div>
-            <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
-                <div class="relative w-full md:w-80">
-                    <input type="text" placeholder="Cari spesies..." class="search-input pr-10" id="searchInput">
+            <div class="flex items-center space-x-4">
+                <div class="relative w-80"> <input type="text" placeholder="Cari spesies..." class="search-input pr-10"
+                        id="searchInput">
                     <i id="searchIcon"
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer"></i>
                 </div>
                 <a href="#"
-                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
+                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg">
                     DA
                 </a>
             </div>
         </header>
 
-        <div class="flex-1 flex flex-col md:flex-row p-4 gap-4 md:space-x-4">
-            <aside class="sidebar w-full md:w-1/5">
+        <div class="flex-1 flex p-4 space-x-4">
+            <aside class="sidebar">
                 <nav id="taxonomy-nav">
                 </nav>
             </aside>
@@ -697,10 +792,10 @@
                     </div>
 
                     <div class="species-gallery mb-8">
-                        <div class="main-image-wrapper w-full md:w-auto">
+                        <div class="main-image-wrapper">
                             <img id="mainSpeciesImage" src="" alt="Main species image" class="rounded-lg">
                         </div>
-                        <div class="thumbnail-gallery w-full md:w-auto">
+                        <div class="thumbnail-gallery">
                             <div id="thumbnailContainer" class="flex gap-2 w-full">
                             </div>
                         </div>
@@ -879,7 +974,7 @@
                 // Add other species here if any
             ];
 
-            // --- Gallery Logic ---
+            // --- Gallery Logic (No changes here) ---
             let currentSlide = 0;
             const mainSpeciesImage = document.getElementById('mainSpeciesImage');
             const thumbnailContainer = document.getElementById('thumbnailContainer');
@@ -925,7 +1020,7 @@
                 setCurrentSlide(0);
             }
 
-            // --- Tab Logic ---
+            // --- Tab Logic (No changes here) ---
             function openTab(evt, tabName) {
                 let i, tabcontent, tablinks;
                 tabcontent = document.getElementsByClassName("tab-content");
@@ -943,6 +1038,7 @@
             // --- Taxonomy Sidebar Logic ---
             const taxonomyNav = document.getElementById('taxonomy-nav');
 
+            // Find category path
             function findCategoryPath(data, targetCategory, currentPath = []) {
                 if (typeof data === 'string') {
                     if (data === targetCategory) {
@@ -971,6 +1067,7 @@
                 return null;
             }
 
+            // Render taxonomy navigation
             function renderTaxonomy(data, parentElement, level = 0, currentPath = []) {
                 const ul = document.createElement('ul');
                 ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-gray-600 pl-2' : ''}`;
@@ -1050,42 +1147,49 @@
                 allNavItems.forEach(item => item.classList.remove('active'));
 
                 let activatedElement = null;
+                // Path lengkap dari kategori spesies (misal: ["Mollusca", "Gastropoda"])
+                // Pastikan taxonomyData["Semua Invertebrata"] adalah root yang benar untuk pencarian
+                const fullTaxonomyRoot = taxonomyData["Semua Invertebrata"];
+                let speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.category, [speciesDetail.filum]); // Initial path can start with filum
 
-                // Prioritas 1: Coba aktifkan kategori spesifik (e.g., Gastropoda)
-                if (speciesDetail.category) {
-                    const categoryElement = document.querySelector(`[data-category="${speciesDetail.category}"]`);
-                    if (categoryElement) {
-                        activatedElement = categoryElement;
+                // If the category isn't found directly under filum, try finding it from the overall taxonomy
+                if (!speciesCategoryPath || speciesCategoryPath.length === 0) {
+                    speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.category);
+                }
+
+                // If a category path is found, try to activate the most specific element
+                if (speciesCategoryPath && speciesCategoryPath.length > 0) {
+                    // Activate the most specific category in the path
+                    const specificCategory = speciesCategoryPath[speciesCategoryPath.length - 1];
+                    let specificCategoryElement = document.querySelector(`[data-category="${specificCategory}"]`);
+                    if (specificCategoryElement) {
+                        activatedElement = specificCategoryElement;
+                    }
+
+                    // Also activate all parent elements in the path
+                    for (let i = 0; i < speciesCategoryPath.length; i++) {
+                        const currentPathSegment = speciesCategoryPath[i];
+                        const elementToActivate = document.querySelector(`[data-category="${currentPathSegment}"]`);
+                        if (elementToActivate) {
+                            elementToActivate.classList.add('active');
+                        }
                     }
                 }
 
-                // Prioritas 2: Jika kategori tidak ditemukan/diaktifkan, coba aktifkan filum (e.g., Mollusca)
-                if (!activatedElement && speciesDetail.filum) {
-                    const filumElement = document.querySelector(`[data-category="${speciesDetail.filum}"]`);
-                    if (filumElement) {
-                        activatedElement = filumElement;
-                    }
-                }
-
-                // Terapkan kelas aktif dan gulirkan ke tampilan jika elemen ditemukan
-                if (activatedElement) {
-                    activatedElement.classList.add('active');
-                    activatedElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest'
-                    });
-                } else {
-                    // Jika tidak ada kategori atau filum yang cocok, default ke "Semua Invertebrata"
+                // If no specific category or filum was activated, default to "Semua Invertebrata"
+                if (!activatedElement) {
                     const allInvertebrataHeader = document.querySelector('.nav-item-header[data-category="Semua Invertebrata"]');
                     if (allInvertebrataHeader) {
+                        activatedElement = allInvertebrataHeader;
                         allInvertebrataHeader.classList.add('active');
-                        allInvertebrataHeader.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'nearest'
-                        });
                     }
                 }
+
+                if (activatedElement) {
+                    activatedElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
             }
+
 
             // Fungsi untuk memperbarui breadcrumbs dinamis
             function updateBreadcrumbs(speciesFilum, speciesCategory, speciesScientificName) {
@@ -1103,7 +1207,14 @@
 
                 // Find full path to the species' category/class/subclass including "Semua Invertebrata" root
                 let targetCategoryForPath = speciesCategory || speciesFilum;
-                let foundPath = findCategoryPath(taxonomyData, targetCategoryForPath, []);
+                // Ensure findCategoryPath is called with the full taxonomy structure including "Semua Invertebrata"
+                const fullTaxonomyRoot = { "Semua Invertebrata": taxonomyData["Semua Invertebrata"] };
+                let foundPath = findCategoryPath(fullTaxonomyRoot, targetCategoryForPath, []);
+
+                // Fallback: If the exact category path isn't found, try finding the filum path
+                if (!foundPath && speciesFilum) {
+                    foundPath = findCategoryPath(fullTaxonomyRoot, speciesFilum, []);
+                }
 
                 if (foundPath && foundPath.length > 0) {
                     // Iterate through the found path, starting after "Semua Invertebrata" if it's the first element
@@ -1133,7 +1244,8 @@
                 breadcrumbsUl.appendChild(currentSpeciesLi);
             }
 
-            // --- Comment & Reply Logic ---
+
+            // --- Comment & Reply Logic (unchanged from previous version) ---
             const commentsList = document.getElementById('commentsList');
             const mainCommentTextarea = document.getElementById('mainCommentTextarea');
             const kirimKomentarBtn = document.getElementById('kirimKomentarBtn');
@@ -1667,7 +1779,9 @@
             searchIcon.addEventListener('click', function () {
                 performGlobalSearchFromDetail();
             });
+
         </script>
+
 </body>
 
 </html>
