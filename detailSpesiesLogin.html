@@ -131,7 +131,7 @@
                 height: auto;
                 /* Allow content to dictate height */
                 max-height: 50vh;
-                /* Optional: limit max height to prevent it from being too tall */
+                /* Optional: limit max height to 50% of viewport for very long lists */
                 margin-bottom: 1rem;
                 /* Space below sidebar when stacked */
             }
@@ -212,14 +212,17 @@
             background-color: #2a6a3a;
         }
 
+        /* Updated h1 styling: always row, align items baseline for better visual alignment */
         .species-header h1 {
             color: #2c3e50;
             font-size: 2.25rem;
             font-weight: 700;
             display: flex;
-            /* Make h1 a flex container */
-            align-items: center;
-            /* Vertically align items */
+            /* Always flex */
+            flex-direction: row;
+            /* Always row */
+            align-items: baseline;
+            /* Align items to their text baseline */
             gap: 0.75rem;
             /* Space between common name and status */
         }
@@ -624,10 +627,10 @@
             .sidebar {
                 width: 100%;
                 /* Full width on mobile */
-                height: auto;
-                /* Allow content to dictate height */
-                max-height: 50vh;
-                /* Optional: limit max height to 50% of viewport for very long lists */
+                height: 200px;
+                /* Fixed height for scrollable sidebar on mobile */
+                overflow-y: auto;
+                /* Enable vertical scrolling */
                 margin-bottom: 1rem;
                 /* Space below sidebar */
             }
@@ -639,14 +642,19 @@
 
             /* Species Header on mobile */
             .species-header {
+                /* No specific flex-direction: column here, rely on default row (from h1) or re-evaluate */
                 flex-direction: column;
+                /* Ensure header items stack if necessary */
                 align-items: flex-start;
             }
 
+            /* h1 in mobile should now be row, so only font-size changes */
             .species-header h1 {
                 font-size: 1.75rem;
-                flex-direction: column;
-                align-items: flex-start;
+                flex-direction: row;
+                /* Keep it row for inline badge */
+                align-items: baseline;
+                /* Align text baseline */
             }
 
             .species-header p {
@@ -958,7 +966,7 @@
                         "images/Bekicot 7.jpg"
                     ],
                     description: "<i>Achatina fulica</i> (Bekicot) adalah spesies siput darat besar, umum ditemukan di banyak bagian dunia sebagai spesies invasif. Berasal dari Afrika Timur, bekicot ini memiliki cangkang berbentuk kerucut yang bervariasi dalam warna dan pola, seringkali dengan garis-garis coklat dan kuning. Mereka bersifat hermafrodit dan mampu menghasilkan telur dalam jumlah besar. Bekicot merupakan hewan herbivora yang memakan berbagai jenis tumbuhan, buah-buahan, dan sayuran, menjadikannya hama pertanian yang signifikan. Mereka aktif di malam hari dan selama periode kelembaban tinggi. Meskipun tidak berbahaya bagi manusia secara langsung, mereka dapat menjadi vektor penyakit dan parasit tertentu.",
-                    habitat: "Bekicot (<i>Achatina fulica</i>) sangat adaptif dan dapat hidup di berbagai habitat tropis dan subtropis. Mereka sering ditemukan di area pertanian, kebun, hutan, dan area perkotaan yang lembap. Mereka membutuhkan kelembaban tinggi dan suhu hangat untuk bertahan hidup dan berkembang biak. Mereka aktif di malam malam atau setelah hujan, bersembunyi di bawah daun, batu, atau puing-puing selama siang hari untuk menghindari kekeringan. Kemampuan mereka untuk hibernasi di musim kering atau kondisi tidak menguntaskan juga berkontribusi pada penyebaran dan keberhasilan invasif mereka.",
+                    habitat: "Bekicot (<i>Achatina fulica</i>) sangat adaptif dan dapat hidup di berbagai habitat tropis dan subtropis. Mereka sering ditemukan di area pertanian, kebun, hutan, dan area perkotaan yang lembap. Mereka membutuhkan kelembaban tinggi dan suhu hangat untuk bertahan hidup dan berkembang biak. Mereka aktif di malam malam atau setelah hujan, bersembunyi di bawah daun, batu, atau puing-puing selama siang hari untuk menghindari kekeringan. Kemampuan mereka untuk hibernasi di musim kering atau kondisi tidak menguntungkan juga berkontribusi pada penyebaran dan keberhasilan invasif mereka.",
                     ecologyRole: "Sebagai spesies invasif, Bekicot (<i>Achatina fulica</i>) memiliki dampak ekologi dan ekonomi yang signifikan. Mereka adalah hama pertanian yang merusak, memakan berbagai tanaman budidaya dan menyebabkan kerugian besar. Mereka juga dapat bersaing dengan spesies siput asli untuk sumber daya. Selain itu, bekicot ini dapat menjadi inang perantara bagi nematoda parasit seperti <i>Angiostrongylus cantonensis</i> (cacing paru-paru tikus), yang dapat menyebabkan meningitis eosinofilik pada manusia jika bekicot yang terinfeksi dikonsumsi mentah atau kurang matang.",
                     peta_persebaran: [ // Contoh data GeoJSON untuk Bekicot
                         {
@@ -1532,6 +1540,7 @@
                 if (speciesDetail) {
                     /* Update Header */
                     const speciesCommonNameElement = document.getElementById('speciesCommonName');
+                    // Changed to include span directly in h1 innerHTML for consistent inline display
                     speciesCommonNameElement.innerHTML = `${speciesDetail.name} <span id="conservationStatus" class="bg-gray-800 bg-opacity-70 text-white text-sm font-normal px-2 py-1 rounded-full whitespace-nowrap"></span>`;
                     document.getElementById('speciesScientificName').textContent = speciesDetail.scientificName;
                     document.getElementById('conservationStatus').textContent = speciesDetail.conservationStatus || 'N/A';
