@@ -24,6 +24,11 @@
             overflow-y: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
+            /* Pastikan lebar ini selalu berlaku, tanpa perubahan responsif */
+            width: 20%;
+            /* Tetapkan lebar relatif, atau gunakan piksel seperti 250px */
+            min-width: 200px;
+            /* Lebar minimum untuk sidebar agar tidak terlalu kecil */
         }
 
         .main-content-area {
@@ -81,7 +86,6 @@
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
             width: 100%;
-            /* Ini akan di-override oleh w-xx di HTML */
             font-size: 1rem;
         }
 
@@ -117,55 +121,36 @@
         }
 
         /* --- MODIFIKASI DIMULAI DI SINI --- */
-        /* Menghapus atau mengomentari aturan responsif untuk memaksa tata letak desktop */
+        /* Memastikan elemen utama tetap dalam layout horizontal (flex-row)
+           dan grid spesies selalu 5 kolom, bahkan pada layar kecil. */
 
-        /* Hapus atau komentari seluruh @media queries yang mempengaruhi layout utama */
-        /* Ini akan membuat elemen tidak menumpuk dan tetap berdampingan */
-        /* @media (max-width: 1024px) {
-            .flex-1.flex.p-4.space-x-4 {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .sidebar {
-                width: 100%;
-                margin-bottom: 0;
-                height: auto;
-            }
-
-            .species-tabs button {
-                flex-basis: auto;
-                padding: 0.75rem 0.5rem;
-                font-size: 0.85rem;
-            }
+        /* Overide Tailwind's default responsive behavior for the main content area */
+        .flex-1.flex.p-4.space-x-4 {
+            flex-direction: row !important;
+            /* Paksa selalu row */
+            /* Anda mungkin perlu menyesuaikan padding atau gap di sini agar tidak terlalu sempit */
+            padding: 1rem;
+            gap: 1rem;
         }
 
-        @media (max-width: 768px) {
-            .header .logo span {
-                font-size: 1.25rem;
-            }
-
-            .search-input {
-                width: 100%;
-            }
-
-            .species-tabs button {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.8rem;
-            }
-        } */
-
-        /* Jika Anda ingin mempertahankan flex-basis 1/5 untuk sidebar,
-           pastikan kelasnya ada di HTML dan tidak di-override oleh width: 100%;
-           pada media query.
-           Dalam kasus ini, karena Anda ingin tampilan desktop, cukup hapus
-           media query di atas.
-        */
-
-        /* Untuk memaksa grid species-card agar selalu 5 kolom */
+        /* Overide Tailwind's grid behavior */
         .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-5.gap-4 {
             grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-            /* Memaksa 5 kolom */
+            /* Paksa 5 kolom selalu */
+            overflow-x: auto;
+            /* Tambahkan scroll horizontal jika kartu terlalu kecil/banyak */
+        }
+
+        /* Pastikan kartu spesies tidak mengecil terlalu ekstrem jika 5 kolom dipaksa */
+        .species-card {
+            min-width: 150px;
+            /* Atur lebar minimum untuk kartu */
+        }
+
+        /* Tambahan: Pastikan header juga tidak menumpuk */
+        header {
+            flex-wrap: nowrap !important;
+            /* Cegah header wrap pada layar kecil */
         }
 
         /* --- MODIFIKASI BERAKHIR DI SINI --- */
@@ -193,7 +178,7 @@
         </header>
 
         <div class="flex-1 flex p-4 space-x-4">
-            <aside class="sidebar w-1/5">
+            <aside class="sidebar">
                 <nav id="taxonomy-nav">
                 </nav>
             </aside>
@@ -204,7 +189,7 @@
                 </div>
 
                 <div class="overflow-y-auto pr-2 flex-grow">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="species-grid">
+                    <div class="grid gap-4" id="species-grid">
                     </div>
                 </div>
 

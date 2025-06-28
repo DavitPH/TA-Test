@@ -60,9 +60,7 @@
             border: 1px solid #cbd5e0;
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            /* Tambahkan lebar spesifik agar tidak terpotong */
             width: 320px;
-            /* w-80 */
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
@@ -344,11 +342,9 @@
 
         /* Perubahan untuk map-container menjadi elemen Leaflet */
         #speciesMapContainer {
-            /* ID diubah untuk menghindari konflik dengan #map di tambahPeta.html */
             width: 80%;
             max-width: 700px;
             height: 400px;
-            /* Tinggi tetap untuk peta interaktif */
             background-color: #f0f0f0;
             border-radius: 0.5rem;
             border: 1px solid #ddd;
@@ -356,7 +352,6 @@
             margin-left: auto;
             margin-right: auto;
             z-index: 0;
-            /* Penting agar Leaflet bekerja dengan benar */
         }
 
         /* Gaya untuk tombol filter peta jika ada banyak peta GeoJSON */
@@ -384,7 +379,6 @@
 
         .map-filter-buttons button.active {
             background-color: #1a4a2a;
-            /* Warna hijau tema */
             color: white;
             border-color: #1a4a2a;
         }
@@ -533,140 +527,91 @@
 
 
         /* --- MODIFIKASI DIMULAI DI SINI --- */
-        /* Menghapus atau mengomentari aturan responsif untuk memaksa tata letak desktop */
+        /* Memastikan elemen utama tetap dalam layout horizontal (flex-row) */
 
-        /* Hapus atau komentari seluruh @media queries yang mempengaruhi layout utama */
-        /* Ini akan membuat elemen tidak menumpuk dan tetap berdampingan */
-        /* @media (max-width: 1024px) {
-            .container.header-container {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .header-right {
-                width: 100%;
-                justify-content: center;
-                margin-top: 1rem;
-                flex-direction: column;
-            }
-
-            .search-input {
-                width: 100%;
-            }
-
-            .flex-1.flex.p-4.space-x-4 {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            .sidebar {
-                width: 100%;
-                margin-bottom: 0;
-                height: auto;
-            }
-
-            .main-content {
-                padding: 1rem;
-                min-height: auto;
-            }
-
-            .species-gallery {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .main-image-wrapper {
-                flex-basis: 100%;
-                max-width: 100%;
-                height: 250px;
-                aspect-ratio: auto;
-            }
-
-            .thumbnail-gallery {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-                width: 100%;
-                max-height: none;
-                overflow-y: visible;
-                flex-basis: 100%;
-                padding-right: 0;
-            }
-
-            .thumbnail-gallery img {
-                width: 80px;
-                height: 80px;
-            }
-
-            .thumbnail-gallery .thumb-arrow {
-                display: none;
-            }
-
-            .species-tabs button {
-                flex-basis: auto;
-                padding: 0.75rem 0.5rem;
-                font-size: 0.85rem;
-            }
-
-            .comment-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .comment-avatar {
-                margin-right: 0;
-                margin-bottom: 0.5rem;
-            }
-
-            .nested-comment {
-                margin-left: 1rem;
-                padding-left: 0.5rem;
-            }
-
-            .nav-item.active {
-                background-color: #2a6a3a;
-                font-weight: 600;
-            }
-
-            .map-container {
-                width: 100%;
-                max-width: 100%;
-                aspect-ratio: 4/3;
-            }
-
-            .trash-icon {
-                top: 0.75rem;
-                right: 0.75rem;
-            }
+        /* Overide Tailwind's default responsive behavior for the main content area */
+        .flex-1.flex.p-4.space-x-4 {
+            flex-direction: row !important;
+            /* Paksa selalu row */
+            /* Anda mungkin perlu menyesuaikan padding atau gap di sini */
+            padding: 1rem;
+            gap: 1rem;
         }
 
-        @media (max-width: 768px) {
-            .header .logo span {
-                font-size: 1.25rem;
-            }
+        /* Pastikan sidebar memiliki lebar tetap, tanpa perubahan responsif */
+        .sidebar {
+            width: 250px !important;
+            /* Paksa lebar tetap */
+            height: calc(100vh - 8rem) !important;
+            /* Paksa tinggi tetap */
+        }
 
-            .header-right {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
+        /* Pastikan elemen-elemen galeri gambar tetap berdampingan */
+        .species-gallery {
+            flex-direction: row !important;
+            /* Paksa selalu row */
+            align-items: flex-start !important;
+            /* Pastikan alignment tetap */
+        }
 
-            .species-header h1 {
-                font-size: 1.75rem;
-            }
+        .main-image-wrapper {
+            flex-basis: 65% !important;
+            /* Paksa basis lebar */
+            max-width: 65% !important;
+            /* Paksa lebar maksimum */
+            height: auto !important;
+            aspect-ratio: 4/3;
+            min-height: 220px !important;
+        }
 
-            .species-header p {
-                font-size: 1rem;
-            }
+        .thumbnail-gallery {
+            flex-direction: column !important;
+            /* Paksa selalu column */
+            max-height: 220px !important;
+            overflow-y: auto !important;
+            flex-basis: 35% !important;
+            /* Paksa basis lebar */
+            padding-right: 0.05rem !important;
+        }
 
-            .species-tabs button {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.8rem;
-            }
+        .thumbnail-gallery img {
+            width: 90px !important;
+            /* Paksa lebar thumbnail */
+            height: 90px !important;
+            /* Paksa tinggi thumbnail */
+        }
 
-            .comment-form button {
-                width: 100%;
-            }
-        } */
+        /* Pastikan tab tidak menumpuk */
+        .species-tabs button {
+            flex-basis: auto !important;
+            padding: 0.75rem 1.0rem !important;
+            font-size: 1rem !important;
+            /* Sesuaikan ukuran font jika perlu */
+        }
+
+        /* Pastikan komentar tidak menumpuk di detail */
+        .comment-item {
+            flex-direction: row !important;
+            /* Paksa selalu row */
+            align-items: flex-start !important;
+        }
+
+        .comment-avatar {
+            margin-right: 1rem !important;
+            margin-bottom: 0 !important;
+        }
+
+        .nested-comment {
+            margin-left: 2rem !important;
+            padding-left: 1rem !important;
+        }
+
+        /* Pastikan header juga tidak menumpuk */
+        header {
+            flex-wrap: nowrap !important;
+            /* Cegah header wrap pada layar kecil */
+        }
+
         /* --- MODIFIKASI BERAKHIR DI SINI --- */
     </style>
 </head>
@@ -692,7 +637,7 @@
         </header>
 
         <div class="flex-1 flex p-4 space-x-4">
-            <aside class="sidebar" style="width: 250px;">
+            <aside class="sidebar">
                 <nav id="taxonomy-nav">
                 </nav>
             </aside>
