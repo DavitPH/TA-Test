@@ -20,14 +20,14 @@
             color: white;
             padding: 1.5rem;
             border-radius: 0.75rem;
-            /* Default for larger screens */
-            height: calc(100vh - 8rem);
-            /* Adjusted for header + main padding */
-            overflow-y: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
             width: 250px;
             /* Default width for larger screens */
+            height: calc(100vh - 8rem);
+            /* Adjusted for header + main padding */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
         }
 
         /* Mobile adjustments for sidebar */
@@ -35,8 +35,8 @@
             .sidebar {
                 width: 100%;
                 /* Full width on small screens */
-                height: auto;
-                /* Auto height on small screens */
+                height: 250px;
+                /* Fixed height for scrollable sidebar on mobile */
                 margin-bottom: 1rem;
                 /* Space below sidebar when stacked */
             }
@@ -79,6 +79,7 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s;
             width: 100%;
+            /* Take full width of its grid cell */
             padding: 1rem;
         }
 
@@ -185,9 +186,32 @@
                 padding: 1rem;
             }
 
-            .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.lg:grid-cols-5.gap-4 {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                /* More compact grid */
+            /* Adjusted grid for species cards on small screens */
+            #species-grid {
+                /* Target the ID directly for higher specificity */
+                grid-template-columns: repeat(2, 1fr);
+                /* Force 2 columns */
+            }
+
+            .species-card {
+                padding: 0.5rem;
+                /* Even smaller padding for cards */
+            }
+
+            .species-card img {
+                height: 80px;
+                /* Smaller image height for cards */
+            }
+
+            .species-card p {
+                font-size: 0.8rem;
+                /* Smaller text for card titles */
+            }
+
+            .species-card p:last-child {
+                /* Scientific name */
+                font-size: 0.7rem;
+                /* Even smaller text for scientific name */
             }
         }
     </style>
@@ -201,8 +225,8 @@
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
             </div>
             <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
-                <div class="relative w-full md:w-80"> <input type="text" placeholder="Cari spesies..."
-                        class="search-input pr-10" id="searchInput">
+                <div class="relative w-full md:w-80">
+                    <input type="text" placeholder="Cari spesies..." class="search-input pr-10" id="searchInput">
                     <i
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"></i>
                 </div>
@@ -225,7 +249,7 @@
                 </div>
 
                 <div class="overflow-y-auto pr-2 flex-grow">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="species-grid">
+                    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="species-grid">
                     </div>
                 </div>
 

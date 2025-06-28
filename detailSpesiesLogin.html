@@ -106,61 +106,26 @@
             color: white;
             padding: 1.5rem;
             border-radius: 0.75rem;
-            overflow-y: auto;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
             width: 250px;
             /* Default width for larger screens */
             height: calc(100vh - 8rem);
+            /* Adjusted for header + main padding */
+            overflow-y: auto;
+            /* Enable vertical scrolling for sidebar */
         }
 
-        .sidebar .nav-item-header {
-            padding: 0.5rem 0.5rem;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-            font-weight: bold;
-        }
-
-        .sidebar .nav-item-header:hover {
-            background-color: #2a6a3a;
-        }
-
-        .sidebar .nav-item-header.active {
-            background-color: #2a6a3a;
-        }
-
-        .sidebar .nav-list-item {
-            display: block;
-            padding: 0.5rem 0.5rem;
-            color: white;
-            transition: background-color 0.2s ease;
-            border-radius: 0.5rem;
-        }
-
-        .sidebar .nav-list-item:hover {
-            background-color: #2a6a3a;
-        }
-
-        .sidebar .nav-list-item.active {
-            background-color: #2a6a3a;
-            font-weight: 600;
-        }
-
-        /* Indentation for taxonomy levels */
-        .indent-0 {
-            padding-left: 0.5rem;
-            font-weight: 600;
-        }
-
-        .indent-1 {
-            padding-left: 1.5rem;
-            font-weight: normal;
-        }
-
-        .indent-2 {
-            padding-left: 2.5rem;
-            font-weight: normal;
+        /* Mobile adjustments for sidebar */
+        @media (max-width: 767px) {
+            .sidebar {
+                width: 100%;
+                /* Full width on small screens */
+                height: 250px;
+                /* Fixed height for scrollable sidebar on mobile */
+                margin-bottom: 1rem;
+                /* Space below sidebar when stacked */
+            }
         }
 
         .main-content {
@@ -206,13 +171,17 @@
             gap: 1rem;
             margin-top: 1.5rem;
             align-items: flex-start;
+            flex-direction: column;
+            /* Default: stack vertically (mobile-first) */
         }
 
         .main-image-wrapper {
             position: relative;
             flex-grow: 1;
-            flex-basis: 65%;
-            max-width: 65%;
+            flex-basis: 100%;
+            /* Full width on mobile */
+            max-width: 100%;
+            /* Full width on mobile */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -235,15 +204,25 @@
             display: none;
         }
 
+        /* Styles for thumbnail gallery - Mobile First */
         .thumbnail-gallery {
             display: flex;
-            flex-direction: column;
-            /* Default for larger screens */
+            flex-direction: row;
+            /* Mobile: thumbnails in a row */
             gap: 0.5rem;
-            overflow-y: auto;
-            max-height: 220px;
-            flex-basis: 35%;
-            padding-right: 0.05rem;
+            overflow-x: auto;
+            /* Mobile: enable horizontal scrolling */
+            overflow-y: hidden;
+            /* Mobile: hide vertical overflow */
+            max-height: none;
+            /* Mobile: remove max height */
+            flex-basis: 100%;
+            /* Mobile: full width for thumbnails */
+            padding-right: 0;
+            justify-content: flex-start;
+            /* Align items to start for horizontal scroll */
+            flex-wrap: nowrap;
+            /* Prevent wrapping to ensure horizontal scroll */
         }
 
         .thumbnail-gallery img {
@@ -254,6 +233,8 @@
             border: 2px solid transparent;
             cursor: pointer;
             transition: border-color 0.2s ease;
+            flex-shrink: 0;
+            /* Prevent images from shrinking on mobile */
         }
 
         .thumbnail-gallery img.active {
@@ -282,7 +263,6 @@
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
             flex-grow: 1;
-            /* Allow buttons to grow and wrap */
             text-align: center;
             white-space: nowrap;
         }
@@ -520,58 +500,97 @@
             background-color: #dc3545;
         }
 
-        /* Responsiveness */
-        @media (max-width: 1023px) {
+        /* Responsiveness Media Queries */
+        @media (min-width: 768px) {
 
-            /* Changed from 1024px to 1023px to match Tailwind's 'md' breakpoint logic */
-            /* Header adjustments */
+            /* Medium screens and up */
+            .sidebar {
+                width: 250px;
+                height: calc(100vh - 8rem);
+                overflow-y: auto;
+            }
+
+            .species-gallery {
+                flex-direction: row;
+                /* Desktop: main image and thumbnails side-by-side */
+                align-items: flex-start;
+            }
+
+            .main-image-wrapper {
+                max-width: 65%;
+                flex-basis: 65%;
+                height: auto;
+                aspect-ratio: 4/3;
+            }
+
+            .thumbnail-gallery {
+                flex-direction: column;
+                /* Desktop: thumbnails stacked vertically */
+                overflow-y: auto;
+                /* Enable vertical scrolling */
+                overflow-x: hidden;
+                /* Hide horizontal scroll on desktop */
+                max-height: 220px;
+                flex-basis: 35%;
+                flex-wrap: nowrap;
+                /* Ensure no wrapping in column */
+            }
+
+            /* Ensure the inner thumbnail container also stacks vertically on desktop */
+            .thumbnail-gallery #thumbnailContainer {
+                flex-direction: column;
+                justify-content: flex-start;
+                /* Align to top */
+            }
+
+            #speciesMapContainer {
+                height: 400px;
+            }
+
+            .species-header {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .species-header h1 {
+                flex-direction: row;
+                align-items: center;
+                font-size: 2.25rem;
+            }
+
+            .species-header .action-buttons {
+                margin-top: 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+
+            /* Small screens (mobile) */
             header {
                 flex-direction: column;
-                /* Stack header items vertically */
                 align-items: flex-start;
-                /* Align stacked items to the start */
                 padding-bottom: 1rem;
             }
 
             header>div:first-child {
-                /* Logo and title */
                 margin-bottom: 1rem;
             }
 
             header>div:last-child {
-                /* Search and profile */
                 width: 100%;
-                /* Take full width */
                 flex-direction: row;
-                /* Keep search and DA side-by-side */
                 justify-content: space-between;
-                /* Space them out */
                 align-items: center;
             }
 
             .search-input {
                 width: calc(100% - 3rem);
-                /* Adjust width to make space for DA avatar */
             }
 
-            /* Main layout adjustment */
             .flex-1.flex.p-4 {
-                /* This is the div holding sidebar and main content */
                 flex-direction: column;
-                /* Stack sidebar and main content */
                 gap: 1rem;
-                /* Use gap for spacing when stacked */
                 padding: 1rem;
-                /* Adjust padding for smaller screens */
-            }
-
-            .sidebar {
-                width: 100%;
-                /* Full width on small screens */
-                height: auto;
-                /* Auto height on small screens */
-                margin-bottom: 1rem;
-                /* Space below sidebar when stacked */
             }
 
             .main-content {
@@ -579,99 +598,37 @@
                 min-height: auto;
             }
 
-            /* Species Header */
             .species-header {
                 flex-direction: column;
-                /* Stack common name/status and action buttons */
                 align-items: flex-start;
             }
 
             .species-header h1 {
-                flex-direction: column;
-                /* Stack common name and status */
-                align-items: flex-start;
                 font-size: 1.75rem;
-                /* Smaller font size for h1 */
+                flex-direction: column;
+                align-items: flex-start;
             }
 
             .species-header p {
                 font-size: 1rem;
-                /* Smaller font size for scientific name */
             }
 
             .species-header .action-buttons {
                 width: 100%;
-                /* Full width for action buttons */
                 display: flex;
-                /* Ensure buttons stack or wrap if many */
                 justify-content: flex-start;
-                /* Align buttons to start */
                 gap: 0.5rem;
-                /* Space between buttons */
                 flex-wrap: wrap;
-                /* Allow buttons to wrap */
                 margin-top: 1rem;
-                /* Add margin to separate from species name */
             }
 
-
-            /* Species Gallery adjustments */
-            .species-gallery {
-                flex-direction: column;
-                /* Stack main image and thumbnails */
-                align-items: center;
-            }
-
-            .main-image-wrapper {
-                flex-basis: 100%;
-                /* Take full width */
-                max-width: 100%;
-                height: 250px;
-                /* Fixed height for image */
-                aspect-ratio: auto;
-                /* Remove aspect ratio */
-            }
-
-            .thumbnail-gallery {
-                flex-direction: row;
-                /* Thumbnails in a row */
-                flex-wrap: wrap;
-                /* Allow thumbnails to wrap */
-                justify-content: center;
-                /* Center thumbnails */
-                width: 100%;
-                /* Full width for thumbnails */
-                max-height: none;
-                /* Remove max height */
-                overflow-y: visible;
-                /* Make overflow visible */
-                flex-basis: 100%;
-                padding-right: 0;
-                margin-top: 1rem;
-                /* Space between main image and thumbnails */
-            }
-
-            .thumbnail-gallery img {
-                width: 80px;
-                height: 80px;
-            }
-
-            /* Tabs adjustment */
             .species-tabs button {
                 padding: 0.75rem 0.5rem;
                 font-size: 0.85rem;
             }
 
-            /* Map adjustments */
-            #speciesMapContainer {
-                height: 300px;
-                /* Keep consistent smaller height for smaller screens */
-            }
-
-            /* Comments section adjustments */
             .comment-item {
                 flex-direction: column;
-                /* Stack avatar and comment content */
                 align-items: flex-start;
             }
 
@@ -701,8 +658,8 @@
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
             </div>
             <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
-                <div class="relative w-full md:w-80"> <input type="text" placeholder="Cari spesies..."
-                        class="search-input pr-10" id="searchInput">
+                <div class="relative w-full md:w-80">
+                    <input type="text" placeholder="Cari spesies..." class="search-input pr-10" id="searchInput">
                     <i id="searchIcon"
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer"></i>
                 </div>
@@ -739,13 +696,12 @@
                         </div>
                     </div>
 
-                    <div class="species-gallery mb-8 flex-col md:flex-row">
-                        <div class="main-image-wrapper w-full md:w-auto"> <img id="mainSpeciesImage" src=""
-                                alt="Main species image" class="rounded-lg">
+                    <div class="species-gallery mb-8">
+                        <div class="main-image-wrapper w-full md:w-auto">
+                            <img id="mainSpeciesImage" src="" alt="Main species image" class="rounded-lg">
                         </div>
-                        <div
-                            class="thumbnail-gallery flex flex-row md:flex-col justify-center md:justify-between items-center w-full md:w-auto">
-                            <div id="thumbnailContainer" class="flex flex-row md:flex-col gap-2 w-full justify-center">
+                        <div class="thumbnail-gallery w-full md:w-auto">
+                            <div id="thumbnailContainer" class="flex gap-2 w-full">
                             </div>
                         </div>
                     </div>
@@ -1711,9 +1667,7 @@
             searchIcon.addEventListener('click', function () {
                 performGlobalSearchFromDetail();
             });
-
         </script>
-
 </body>
 
 </html>
