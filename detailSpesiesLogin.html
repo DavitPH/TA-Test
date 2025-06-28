@@ -106,7 +106,7 @@
             pointer-events: none;
         }
 
-        /* Sidebar - REVERTED TO PREVIOUS WORKING BEHAVIOR */
+        /* Sidebar: Default for larger screens and handles responsive stacking for mobile */
         .sidebar {
             background-color: #1a4a2a;
             color: white;
@@ -116,13 +116,26 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
             width: 250px;
-            /* Default width for larger screens */
+            /* Default desktop width */
             height: calc(100vh - 8rem);
-            /* Occupy remaining vertical space, allowing scroll */
+            /* Take remaining vertical space on desktop */
         }
 
-        /* No specific mobile height/overflow changes for sidebar here; it should naturally stack and scroll */
-        /* Its responsiveness will be handled by the parent flex container and its default height */
+        /* Mobile adjustments for sidebar.
+           It should still be scrollable, but take full width and height will be limited by parent or set to auto
+           to stack correctly. */
+        @media (max-width: 767px) {
+            .sidebar {
+                width: 100%;
+                /* Full width on small screens */
+                height: auto;
+                /* Allow content to dictate height */
+                max-height: 50vh;
+                /* Optional: limit max height to prevent it from being too tall */
+                margin-bottom: 1rem;
+                /* Space below sidebar when stacked */
+            }
+        }
 
 
         .sidebar .nav-item-header {
@@ -217,6 +230,7 @@
             margin-top: 0.5rem;
         }
 
+        /* Species Gallery Default (Mobile-first vertical stacking) */
         .species-gallery {
             display: flex;
             gap: 1rem;
@@ -255,7 +269,7 @@
             display: none;
         }
 
-        /* Styles for thumbnail gallery - Mobile First */
+        /* Styles for thumbnail gallery - Mobile First (Horizontal Scroll) */
         .thumbnail-gallery {
             display: flex;
             flex-direction: row;
@@ -275,6 +289,18 @@
             flex-wrap: nowrap;
             /* Prevent wrapping to ensure horizontal scroll */
         }
+
+        /* Inner container for thumbnails to control their layout */
+        .thumbnail-gallery #thumbnailContainer {
+            display: flex;
+            flex-direction: row;
+            /* Mobile default: horizontal row */
+            gap: 0.5rem;
+            flex-wrap: nowrap;
+            /* Prevent wrapping in horizontal scroll */
+            justify-content: flex-start;
+        }
+
 
         .thumbnail-gallery img {
             width: 90px;
@@ -556,7 +582,7 @@
         }
 
 
-        /* Responsiveness */
+        /* Responsiveness Media Queries */
         /* Changes for mobile layout will be applied here using max-width */
         @media (max-width: 767px) {
 
@@ -593,12 +619,13 @@
                 /* Adjust padding */
             }
 
-            /* Sidebar on mobile - revert to original desired behavior: auto height, still scrollable if content overflows */
+            /* Sidebar on mobile: It should still be scrollable, but take full width and height will be limited by parent or set to auto
+               to stack correctly. */
             .sidebar {
                 width: 100%;
                 /* Full width on mobile */
                 height: auto;
-                /* Allow content to dictate height, enable scrolling for overflow */
+                /* Allow content to dictate height */
                 max-height: 50vh;
                 /* Optional: limit max height to 50% of viewport for very long lists */
                 margin-bottom: 1rem;
@@ -891,7 +918,6 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
         <script>
-            // Updated taxonomy data structure (consistent with index.html)
             const taxonomyData = {
                 "Semua Invertebrata": {
                     "Protozoa": ["Amoebozoa", "Ciliophora (SAR)", "Excavata", "Opisthokonta"],
@@ -932,7 +958,7 @@
                         "images/Bekicot 7.jpg"
                     ],
                     description: "<i>Achatina fulica</i> (Bekicot) adalah spesies siput darat besar, umum ditemukan di banyak bagian dunia sebagai spesies invasif. Berasal dari Afrika Timur, bekicot ini memiliki cangkang berbentuk kerucut yang bervariasi dalam warna dan pola, seringkali dengan garis-garis coklat dan kuning. Mereka bersifat hermafrodit dan mampu menghasilkan telur dalam jumlah besar. Bekicot merupakan hewan herbivora yang memakan berbagai jenis tumbuhan, buah-buahan, dan sayuran, menjadikannya hama pertanian yang signifikan. Mereka aktif di malam hari dan selama periode kelembaban tinggi. Meskipun tidak berbahaya bagi manusia secara langsung, mereka dapat menjadi vektor penyakit dan parasit tertentu.",
-                    habitat: "Bekicot (<i>Achatina fulica</i>) sangat adaptif dan dapat hidup di berbagai habitat tropis dan subtropis. Mereka sering ditemukan di area pertanian, kebun, hutan, dan area perkotaan yang lembap. Mereka membutuhkan kelembaban tinggi dan suhu hangat untuk bertahan hidup dan berkembang biak. Mereka aktif di malam malam atau setelah hujan, bersembunyi di bawah daun, batu, atau puing-puing selama siang hari untuk menghindari kekeringan. Kemampuan mereka untuk hibernasi di musim kering atau kondisi tidak menguntungkan juga berkontribusi pada penyebaran dan keberhasilan invasif mereka.",
+                    habitat: "Bekicot (<i>Achatina fulica</i>) sangat adaptif dan dapat hidup di berbagai habitat tropis dan subtropis. Mereka sering ditemukan di area pertanian, kebun, hutan, dan area perkotaan yang lembap. Mereka membutuhkan kelembaban tinggi dan suhu hangat untuk bertahan hidup dan berkembang biak. Mereka aktif di malam malam atau setelah hujan, bersembunyi di bawah daun, batu, atau puing-puing selama siang hari untuk menghindari kekeringan. Kemampuan mereka untuk hibernasi di musim kering atau kondisi tidak menguntaskan juga berkontribusi pada penyebaran dan keberhasilan invasif mereka.",
                     ecologyRole: "Sebagai spesies invasif, Bekicot (<i>Achatina fulica</i>) memiliki dampak ekologi dan ekonomi yang signifikan. Mereka adalah hama pertanian yang merusak, memakan berbagai tanaman budidaya dan menyebabkan kerugian besar. Mereka juga dapat bersaing dengan spesies siput asli untuk sumber daya. Selain itu, bekicot ini dapat menjadi inang perantara bagi nematoda parasit seperti <i>Angiostrongylus cantonensis</i> (cacing paru-paru tikus), yang dapat menyebabkan meningitis eosinofilik pada manusia jika bekicot yang terinfeksi dikonsumsi mentah atau kurang matang.",
                     peta_persebaran: [ // Contoh data GeoJSON untuk Bekicot
                         {
@@ -1090,15 +1116,8 @@
                         } else {
                             fontWeightClass = 'font-semibold';
                         }
-                    } else if (Array.isArray(data[key])) {
-                        iconClass = 'fas fa-folder';
-                        if (level === 0) {
-                            fontWeightClass = 'font-bold';
-                        } else {
-                            fontWeightClass = 'font-semibold';
-                        }
-                    } else {
-                        iconClass = 'fas fa-sitemap';
+                    } else { /* Leaf node or simple array item */
+                        iconClass = 'fas fa-arrow-right'; /* Using arrow-right for child items */
                         fontWeightClass = 'font-normal';
                     }
 
@@ -1124,6 +1143,7 @@
                             const subItemFullPathSegment = [...fullPathSegment, subItemKey];
 
                             const subNavItemDiv = document.createElement('div');
+                            /* Ensure proper class and icon for sub-items within an array */
                             subNavItemDiv.className = `nav-list-item cursor-pointer text-xs py-1 px-3 rounded-lg font-normal`;
                             subNavItemDiv.style.paddingLeft = `${0.5 + (level + 1) * 1}rem`;
                             subNavItemDiv.innerHTML = `<i class="fas fa-arrow-right mr-2 text-xs"></i> <span>${subItemKey.replace(/_/g, ' ')}</span>`;
@@ -1141,42 +1161,36 @@
                 parentElement.appendChild(ul);
             }
 
-            // Fungsi untuk memperbarui item taksonomi yang aktif di sidebar
+            /* Fungsi untuk memperbarui item taksonomi yang aktif di sidebar */
             function updateActiveTaxonomy(speciesDetail) {
                 const allNavItems = document.querySelectorAll('#taxonomy-nav .nav-list-item, #taxonomy-nav .nav-item-header');
                 allNavItems.forEach(item => item.classList.remove('active'));
 
                 let activatedElement = null;
-                // Path lengkap dari kategori spesies (misal: ["Mollusca", "Gastropoda"])
-                // Pastikan taxonomyData["Semua Invertebrata"] adalah root yang benar untuk pencarian
-                const fullTaxonomyRoot = taxonomyData["Semua Invertebrata"];
-                let speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.category, [speciesDetail.filum]); // Initial path can start with filum
+                /* Path lengkap dari kategori spesies (misal: ["Mollusca", "Gastropoda"]) */
+                /* Pastikan taxonomyData["Semua Invertebrata"] adalah root yang benar untuk pencarian */
+                const fullTaxonomyRoot = { "Semua Invertebrata": taxonomyData["Semua Invertebrata"] };
+                let speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.category);
 
-                // If the category isn't found directly under filum, try finding it from the overall taxonomy
+                /* If the category path is not found for speciesDetail.category, try with speciesDetail.filum */
                 if (!speciesCategoryPath || speciesCategoryPath.length === 0) {
-                    speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.category);
+                    speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.filum);
                 }
 
-                // If a category path is found, try to activate the most specific element
+                /* If a category path is found, try to activate the most specific element */
                 if (speciesCategoryPath && speciesCategoryPath.length > 0) {
-                    // Activate the most specific category in the path
-                    const specificCategory = speciesCategoryPath[speciesCategoryPath.length - 1];
-                    let specificCategoryElement = document.querySelector(`[data-category="${specificCategory}"]`);
-                    if (specificCategoryElement) {
-                        activatedElement = specificCategoryElement;
-                    }
-
-                    // Also activate all parent elements in the path
+                    /* Activate all parent elements in the path */
                     for (let i = 0; i < speciesCategoryPath.length; i++) {
                         const currentPathSegment = speciesCategoryPath[i];
                         const elementToActivate = document.querySelector(`[data-category="${currentPathSegment}"]`);
                         if (elementToActivate) {
                             elementToActivate.classList.add('active');
+                            activatedElement = elementToActivate; /* Keep track of the last activated (most specific) */
                         }
                     }
                 }
 
-                // If no specific category or filum was activated, default to "Semua Invertebrata"
+                /* If no specific category or filum was activated, default to "Semua Invertebrata" */
                 if (!activatedElement) {
                     const allInvertebrataHeader = document.querySelector('.nav-item-header[data-category="Semua Invertebrata"]');
                     if (allInvertebrataHeader) {
@@ -1191,12 +1205,12 @@
             }
 
 
-            // Fungsi untuk memperbarui breadcrumbs dinamis
+            /* Fungsi untuk memperbarui breadcrumbs dinamis */
             function updateBreadcrumbs(speciesFilum, speciesCategory, speciesScientificName) {
                 const breadcrumbsUl = document.getElementById('dynamic-breadcrumbs');
                 breadcrumbsUl.innerHTML = '';
 
-                // Mulai dengan "Semua Invertebrata" link
+                /* Mulai dengan "Semua Invertebrata" link */
                 let linkRoot = document.createElement('li');
                 let aRoot = document.createElement('a');
                 aRoot.href = `index.html?category=${encodeURIComponent("Semua Invertebrata")}`;
@@ -1205,19 +1219,19 @@
                 linkRoot.appendChild(aRoot);
                 breadcrumbsUl.appendChild(linkRoot);
 
-                // Find full path to the species' category/class/subclass including "Semua Invertebrata" root
+                /* Find full path to the species' category/class/subclass including "Semua Invertebrata" root */
                 let targetCategoryForPath = speciesCategory || speciesFilum;
-                // Ensure findCategoryPath is called with the full taxonomy structure including "Semua Invertebrata"
+                /* Ensure findCategoryPath is called with the full taxonomyData object */
                 const fullTaxonomyRoot = { "Semua Invertebrata": taxonomyData["Semua Invertebrata"] };
-                let foundPath = findCategoryPath(fullTaxonomyRoot, targetCategoryForPath, []);
+                let foundPath = findCategoryPath(fullTaxonomyRoot, targetCategoryForPath);
 
-                // Fallback: If the exact category path isn't found, try finding the filum path
+                /* Fallback: If the exact category path isn't found, try finding the filum path */
                 if (!foundPath && speciesFilum) {
-                    foundPath = findCategoryPath(fullTaxonomyRoot, speciesFilum, []);
+                    foundPath = findCategoryPath(fullTaxonomyRoot, speciesFilum);
                 }
 
                 if (foundPath && foundPath.length > 0) {
-                    // Iterate through the found path, starting after "Semua Invertebrata" if it's the first element
+                    /* Iterate through the found path, starting after "Semua Invertebrata" if it's the first element */
                     let startIndex = 0;
                     if (foundPath[0] === "Semua Invertebrata") {
                         startIndex = 1;
@@ -1235,7 +1249,7 @@
                     }
                 }
 
-                // Add current species scientific name (as text, not link)
+                /* Add current species scientific name (as text, not link) */
                 let currentSpeciesLi = document.createElement('li');
                 let currentSpeciesSpan = document.createElement('span');
                 currentSpeciesSpan.className = 'text-gray-900 font-medium';
@@ -1245,7 +1259,7 @@
             }
 
 
-            // --- Comment & Reply Logic (unchanged from previous version) ---
+            /* --- Comment & Reply Logic (unchanged from previous version) --- */
             const commentsList = document.getElementById('commentsList');
             const mainCommentTextarea = document.getElementById('mainCommentTextarea');
             const kirimKomentarBtn = document.getElementById('kirimKomentarBtn');
@@ -1505,7 +1519,7 @@
                 }
             });
 
-            // --- Initial Load of Species Details and Sidebar ---
+            /* --- Initial Load of Species Details and Sidebar --- */
             document.addEventListener('DOMContentLoaded', () => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const speciesId = parseInt(urlParams.get('id'));
@@ -1516,23 +1530,23 @@
                 }
 
                 if (speciesDetail) {
-                    // Update Header
+                    /* Update Header */
                     const speciesCommonNameElement = document.getElementById('speciesCommonName');
                     speciesCommonNameElement.innerHTML = `${speciesDetail.name} <span id="conservationStatus" class="bg-gray-800 bg-opacity-70 text-white text-sm font-normal px-2 py-1 rounded-full whitespace-nowrap"></span>`;
                     document.getElementById('speciesScientificName').textContent = speciesDetail.scientificName;
                     document.getElementById('conservationStatus').textContent = speciesDetail.conservationStatus || 'N/A';
                     document.title = `Detail Spesies - ${speciesDetail.scientificName}`;
 
-                    // Update Gallery
+                    /* Update Gallery */
                     currentSpeciesImages = speciesDetail.images;
                     renderThumbnails(currentSpeciesImages);
 
-                    // Update Tab Contents
+                    /* Update Tab Contents */
                     document.getElementById('deskripsiContent').innerHTML = speciesDetail.description;
                     document.getElementById('habitatContent').innerHTML = speciesDetail.habitat;
                     document.getElementById('ekologiContent').innerHTML = speciesDetail.ecologyRole;
 
-                    // Update Classification Table
+                    /* Update Classification Table */
                     const klasifikasiTableBody = document.getElementById('klasifikasiTableBody');
                     klasifikasiTableBody.innerHTML = `
                         <tr>
@@ -1549,15 +1563,15 @@
                         </tr>
                     `;
 
-                    // --- PETA PERSEBARAN BARU DENGAN LEAFLET ---
+                    /* --- PETA PERSEBARAN BARU DENGAN LEAFLET --- */
                     const speciesMapContainer = document.getElementById('speciesMapContainer');
                     const mapFilterButtonsContainer = document.getElementById('mapFilterButtons');
-                    let speciesMap = null; // Variabel untuk menyimpan instance peta
+                    let speciesMap = null; /* Variabel untuk menyimpan instance peta */
 
                     function initializeSpeciesMap() {
-                        // Hanya inisialisasi jika belum ada
+                        /* Hanya inisialisasi jika belum ada */
                         if (speciesMap === null) {
-                            speciesMap = L.map('speciesMapContainer').setView([3.4333, 117.6500], 9); // Fokus ke Kalimantan Utara
+                            speciesMap = L.map('speciesMapContainer').setView([3.4333, 117.6500], 9); /* Fokus ke Kalimantan Utara */
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                                 maxZoom: 19,
                                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -1566,10 +1580,10 @@
                         return speciesMap;
                     }
 
-                    const allRegionsLayer = L.featureGroup(); // Untuk batas Kaltara
-                    const speciesGeoJSONLayer = L.featureGroup(); // Untuk GeoJSON spesies
+                    const allRegionsLayer = L.featureGroup(); /* Untuk batas Kaltara */
+                    const speciesGeoJSONLayer = L.featureGroup(); /* Untuk GeoJSON spesies */
 
-                    // Load Kaltara GeoJSON boundaries (from tambahPeta.html reference)
+                    /* Load Kaltara GeoJSON boundaries (from tambahPeta.html reference) */
                     const geojsonFiles = [
                         'data/geojson/65.01_Bulungan.geojson',
                         'data/geojson/65.02_Malinau.geojson',
@@ -1589,9 +1603,9 @@
                             .then(data => {
                                 L.geoJSON(data, {
                                     style: {
-                                        color: '#28a745', // Warna garis hijau
-                                        weight: 2, // Ketebalan garis
-                                        fillColor: '#7CFC00', // Warna isi hijau muda
+                                        color: '#28a745', /* Warna garis hijau */
+                                        weight: 2, /* Ketebalan garis */
+                                        fillColor: '#7CFC00', /* Warna isi hijau muda */
                                         fillOpacity: 0.3
                                     }
                                 }).addTo(allRegionsLayer);
@@ -1602,16 +1616,16 @@
 
                     function renderSpeciesMap(mapDataArray = []) {
                         const currentMapInstance = initializeSpeciesMap();
-                        speciesGeoJSONLayer.clearLayers(); // Bersihkan lapisan GeoJSON spesies sebelumnya
+                        speciesGeoJSONLayer.clearLayers(); /* Bersihkan lapisan GeoJSON spesies sebelumnya */
 
-                        currentMapInstance.addLayer(allRegionsLayer); // Pastikan batas Kaltara selalu ada
-                        let bounds = new L.LatLngBounds([]); // Untuk menyesuaikan zoom peta
+                        currentMapInstance.addLayer(allRegionsLayer); /* Pastikan batas Kaltara selalu ada */
+                        let bounds = new L.LatLngBounds([]); /* Untuk menyesuaikan zoom peta */
 
-                        // Tambahkan batas Kaltara ke bounds jika sudah ada layer di allRegionsLayer
+                        /* Tambahkan batas Kaltara ke bounds jika sudah ada layer di allRegionsLayer */
                         if (allRegionsLayer.getLayers().length > 0) {
                             bounds.extend(allRegionsLayer.getBounds());
                         } else {
-                            // Fallback jika GeoJSON Kaltara belum dimuat, set ke pusat Kaltara
+                            /* Fallback jika GeoJSON Kaltara belum dimuat, set ke pusat Kaltara */
                             currentMapInstance.setView([3.4333, 117.6500], 9);
                         }
 
@@ -1626,7 +1640,7 @@
                             if (mapGeoJSON && typeof mapGeoJSON === 'object' && mapGeoJSON.type) {
                                 const layer = L.geoJSON(mapGeoJSON, {
                                     style: {
-                                        color: '#007bff', // Warna garis GeoJSON spesies
+                                        color: '#007bff', /* Warna garis GeoJSON spesies */
                                         weight: 3,
                                         fillColor: '#007bff',
                                         fillOpacity: 0.5
@@ -1641,7 +1655,7 @@
                             }
                         });
 
-                        currentMapInstance.addLayer(speciesGeoJSONLayer); // Tambahkan lapisan GeoJSON spesies
+                        currentMapInstance.addLayer(speciesGeoJSONLayer); /* Tambahkan lapisan GeoJSON spesies */
 
                         if (bounds.isValid()) {
                             currentMapInstance.fitBounds(bounds, { padding: [50, 50] });
@@ -1651,15 +1665,15 @@
                         currentMapInstance.invalidateSize();
                     }
 
-                    // Render tombol filter peta
+                    /* Render tombol filter peta */
                     const mapCollections = speciesDetail.peta_persebaran || [];
-                    mapFilterButtonsContainer.innerHTML = ''; // Bersihkan tombol sebelumnya
+                    mapFilterButtonsContainer.innerHTML = ''; /* Bersihkan tombol sebelumnya */
 
                     if (mapCollections.length > 0) {
-                        // Tombol "Lihat Semua Peta"
+                        /* Tombol "Lihat Semua Peta" */
                         const allMapsButton = document.createElement('button');
                         allMapsButton.textContent = 'Lihat Semua Peta';
-                        allMapsButton.classList.add('active'); // Aktifkan secara default
+                        allMapsButton.classList.add('active'); /* Aktifkan secara default */
                         allMapsButton.addEventListener('click', () => {
                             document.querySelectorAll('#mapFilterButtons button').forEach(btn => btn.classList.remove('active'));
                             allMapsButton.classList.add('active');
@@ -1667,7 +1681,7 @@
                         });
                         mapFilterButtonsContainer.appendChild(allMapsButton);
 
-                        // Tombol untuk setiap peta individual
+                        /* Tombol untuk setiap peta individual */
                         mapCollections.forEach((mapGeoJSON, index) => {
                             const singleMapButton = document.createElement('button');
                             singleMapButton.textContent = `Peta ${index + 1}`;
@@ -1682,7 +1696,7 @@
                         mapFilterButtonsContainer.innerHTML = '<p class="text-gray-500">Tidak ada peta persebaran yang tersedia.</p>';
                     }
 
-                    // Update Source Data Table
+                    /* Update Source Data Table */
                     const sumberDataTableBody = document.getElementById('sumberDataTableBody');
                     sumberDataTableBody.innerHTML = `
                         <tr>
@@ -1703,11 +1717,11 @@
                         </tr>
                     `;
 
-                    // Render Taxonomy Sidebar
+                    /* Render Taxonomy Sidebar */
                     const sidebarNavRoot = document.getElementById('taxonomy-nav');
-                    sidebarNavRoot.innerHTML = ''; // Clear previous content
+                    sidebarNavRoot.innerHTML = ''; /* Clear previous content */
 
-                    // Add "Semua Invertebrata" special button/header
+                    /* Add "Semua Invertebrata" special button/header */
                     const allInvertebrataDiv = document.createElement('div');
                     allInvertebrataDiv.className = `nav-item-header w-full text-left py-2 px-3 rounded-lg font-bold text-sm bg-[#1a4a2a] text-white cursor-pointer mb-2`;
                     allInvertebrataDiv.textContent = "Semua Invertebrata";
@@ -1717,16 +1731,16 @@
                     });
                     sidebarNavRoot.appendChild(allInvertebrataDiv);
 
-                    // Render the main taxonomy list
+                    /* Render the main taxonomy list */
                     const mainTaxonomyUl = document.createElement('ul');
                     sidebarNavRoot.appendChild(mainTaxonomyUl);
                     renderTaxonomy(taxonomyData["Semua Invertebrata"], mainTaxonomyUl, 0, ["Semua Invertebrata"]);
 
-                    // Dynamically activate sidebar item and update breadcrumbs based on current species
+                    /* Dynamically activate sidebar item and update breadcrumbs based on current species */
                     updateActiveTaxonomy(speciesDetail);
                     updateBreadcrumbs(speciesDetail.filum, speciesDetail.category, speciesDetail.scientificName);
 
-                    // Render peta saat tab "Peta Persebaran" diaktifkan
+                    /* Render peta saat tab "Peta Persebaran" diaktifkan */
                     document.querySelectorAll('.species-tabs button').forEach(button => {
                         button.addEventListener('click', (event) => {
                             openTab(event, event.target.getAttribute('onclick').split("'")[1]);
@@ -1754,11 +1768,11 @@
                 document.querySelector('.species-tabs button').click();
             });
 
-            // Mendapatkan referensi elemen searchInput dan searchIcon
+            /* Mendapatkan referensi elemen searchInput dan searchIcon */
             const searchInput = document.getElementById('searchInput');
             const searchIcon = document.getElementById('searchIcon');
 
-            // Fungsi untuk melakukan pencarian global dan mengarahkan ke index.html
+            /* Fungsi untuk melakukan pencarian global dan mengarahkan ke index.html */
             function performGlobalSearchFromDetail() {
                 const query = searchInput.value.trim();
                 if (query) {
@@ -1767,7 +1781,7 @@
                 }
             }
 
-            // Event listener untuk tombol Enter pada input pencarian
+            /* Event listener untuk tombol Enter pada input pencarian */
             searchInput.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
@@ -1775,11 +1789,10 @@
                 }
             });
 
-            // Event listener untuk klik ikon pencarian
+            /* Event listener untuk klik ikon pencarian */
             searchIcon.addEventListener('click', function () {
                 performGlobalSearchFromDetail();
             });
-
         </script>
 
 </body>
