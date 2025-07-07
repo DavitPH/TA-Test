@@ -67,8 +67,8 @@
             border: 1px solid #cbd5e0;
             border-radius: 0.5rem;
             padding: 0.75rem 1rem;
-            width: 320px;
-            /* Default desktop width */
+            width: 100%;
+            /* Default ke lebar penuh untuk mobile first */
             font-size: 1rem;
             outline: none;
             transition: border-color 0.2s;
@@ -139,15 +139,18 @@
             .sidebar-wrapper {
                 position: fixed;
                 top: 0;
-                left: -280px;
-                /* Start off-screen */
-                width: 280px;
-                /* Fixed width for mobile sidebar */
+                left: -70vw;
+                /* Start off-screen, matches new sidebar width */
+                width: 70vw;
+                /* Adjusted to 70% of viewport width for responsiveness */
+                max-width: 250px;
+                /* Max width to prevent it from being too large on wider mobiles */
                 height: 100vh;
                 background-color: #15803D;
-                z-index: 50;
-                /* Above main content */
-                transition: left 0.3s ease-in-out;
+                z-index: 100;
+                /* Highest z-index for the sidebar itself */
+                transition: left 0.4s ease-in-out;
+                /* Smooth transition for sliding, adjusted to 0.4s */
                 box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
                 padding-top: 5rem;
                 /* Space for fixed header */
@@ -178,8 +181,8 @@
                 width: 100%;
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.5);
-                z-index: 40;
-                /* Below sidebar, above main content */
+                z-index: 90;
+                /* Between sidebar and header/main content */
                 display: none;
                 /* Hidden by default */
                 transition: opacity 0.3s ease-in-out;
@@ -203,16 +206,46 @@
                 cursor: pointer;
             }
 
+            /* Hide hamburger icon when sidebar is open */
+            body.sidebar-open .hamburger-icon {
+                display: none;
+            }
+
+            /* Style for the close button inside the sidebar (now also a hamburger icon) */
+            .sidebar-close-btn {
+                display: block;
+                /* Show close button on mobile */
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.8rem;
+                color: white;
+                cursor: pointer;
+                z-index: 110;
+                /* Ensure it's above sidebar content */
+            }
+
+            /* Adjust main content area when sidebar is open */
             body.sidebar-open {
                 overflow: hidden;
                 /* Prevent scrolling of the main content */
             }
 
-            body.sidebar-open .main-content {
+            /* --- PERUBAHAN DI SINI: Target elemen <main> --- */
+            body.sidebar-open main {
                 /* When sidebar is open, dim the main content and make it unclickable */
                 pointer-events: none;
                 filter: blur(2px) grayscale(50%);
                 /* Example: blur and dim */
+                transition: filter 0.3s ease-in-out;
+                /* Add transition for smoother effect */
+            }
+
+            /* --- PERUBAHAN BARU DI SINI: Target elemen <header> saat sidebar terbuka --- */
+            body.sidebar-open header {
+                pointer-events: none;
+                filter: blur(2px) grayscale(50%);
+                transition: filter 0.3s ease-in-out;
             }
         }
 
@@ -233,6 +266,7 @@
         /* Mengubah warna aktif item navigasi header menjadi #116631 */
         .sidebar .nav-item-header.active {
             background-color: #116631;
+            font-weight: 600;
         }
 
         .sidebar .nav-list-item {
@@ -676,32 +710,41 @@
 
             /* Header adjustments for mobile */
             header {
-                flex-direction: row;
-                /* Keep elements in a row */
+                flex-direction: column;
+                /* Stack elements vertically on mobile */
                 justify-content: space-between;
-                /* Space them out */
                 align-items: center;
                 padding-bottom: 1rem;
                 position: sticky;
-                /* Make header sticky */
                 top: 0;
                 width: 100%;
                 z-index: 60;
-                /* Ensure header is above sidebar and overlay */
             }
 
             header>div:first-child {
+                display: flex;
+                /* Use flex to align items */
+                align-items: center;
+                /* Vertically center items */
+                gap: 0.5rem;
+                /* Small gap between items */
+                width: 100%;
+                /* Take full width for alignment */
+                justify-content: space-between;
+                /* Space out hamburger, logo, title, and profile */
                 margin-bottom: 0;
                 /* Remove margin-bottom */
             }
 
             header>div:last-child {
-                width: auto;
-                /* Let content dictate width */
+                width: 100%;
+                /* Take full width for search bar */
                 flex-direction: row;
                 justify-content: flex-end;
                 /* Align to end */
                 align-items: center;
+                margin-top: 0.5rem;
+                /* Add some space above search bar */
             }
 
             .search-input {
@@ -723,8 +766,10 @@
             /* Sidebar on mobile: It should still be scrollable, but take full width and height will be limited by parent or set to auto
                to stack correctly. */
             .sidebar-wrapper {
-                width: 280px;
-                /* Fixed width for mobile sidebar */
+                width: 70vw;
+                /* Adjusted to 70% of viewport width for responsiveness */
+                max-width: 250px;
+                /* Max width to prevent it from being too large on wider mobiles */
                 height: 100vh;
                 margin-bottom: 0;
                 /* No margin below sidebar when it's a fixed overlay */
@@ -965,29 +1010,32 @@
 
 <body>
     <div class="min-h-screen flex flex-col">
-        <header class="bg-white shadow-md p-4 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
+        <header class="bg-white shadow-md p-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center space-x-2 w-full md:w-auto">
                 <!-- Hamburger Icon - Visible only on mobile -->
                 <i class="fas fa-bars hamburger-icon mr-4 md:hidden" id="hamburgerMenu"></i>
                 <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
+                <!-- Profile icon moved here -->
+                <a href="#"
+                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0 ml-auto md:ml-4">
+                    DA
+                </a>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative w-80"> <input type="text" placeholder="Cari spesies..." class="search-input pr-10"
-                        id="searchInput">
+            <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
+                <div class="relative w-full md:w-80"> <input type="text" placeholder="Cari spesies..."
+                        class="search-input pr-10" id="searchInput">
                     <i id="searchIcon"
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer"></i>
                 </div>
-                <a href="#"
-                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg">
-                    DA
-                </a>
             </div>
         </header>
 
         <div class="flex-1 flex p-4 space-x-4">
             <!-- Sidebar Wrapper (new element for mobile sidebar functionality) -->
             <div class="sidebar-wrapper" id="sidebarWrapper">
+                <!-- Close button for mobile sidebar (now also a hamburger icon) -->
+                <i class="fas fa-bars sidebar-close-btn md:hidden" id="sidebarCloseBtn"></i>
                 <aside class="sidebar">
                     <nav id="taxonomy-nav">
                     </nav>
@@ -1118,10 +1166,9 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
         <script>
-            // Data taksonomi untuk navigasi sidebar
+            // Data taksonomi untuk navigasi sidebar - DISEMPURNAKAN AGAR SAMA DENGAN INDEX.HTML
             const taxonomyData = {
                 "Semua Invertebrata": {
-                    // Mengubah Protozoa menjadi array langsung dari kelas-kelasnya
                     "Protozoa": [
                         "Amoebozoa",
                         "SAR (Stramenopiles, Alveolata, Rhizaria)",
@@ -1213,7 +1260,7 @@
             const hamburgerMenu = document.getElementById('hamburgerMenu');
             const sidebarWrapper = document.getElementById('sidebarWrapper');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            const mainContentArea = document.querySelector('main'); // Select the main content area
+            // const mainContentArea = document.querySelector('main'); // Select the main content area - not used directly in this scope
 
             // Function to open the sidebar
             function openSidebar() {
@@ -1235,6 +1282,12 @@
             }
             if (sidebarOverlay) {
                 sidebarOverlay.addEventListener('click', closeSidebar);
+            }
+
+            // Close button for mobile sidebar
+            const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+            if (sidebarCloseBtn) {
+                sidebarCloseBtn.addEventListener('click', closeSidebar);
             }
 
             // Close sidebar when a navigation item is clicked
@@ -1319,24 +1372,33 @@
             // --- Logika Sidebar Taksonomi ---
             // const taxonomyNav = document.getElementById('taxonomy-nav'); // Already declared above
 
-            // Fungsi untuk menemukan jalur kategori
+            /**
+             * Fungsi pembantu untuk menemukan jalur lengkap kategori dalam data taksonomi.
+             * Ini akan mencari baik kunci (kategori induk) maupun nilai (kategori daun).
+             * @param {object|Array|string} data - Objek data taksonomi (atau bagian darinya).
+             * @param {string} targetCategory - Kategori yang ingin dicari jalurnya.
+             * @param {Array<string>} currentPath - Jalur saat ini yang terakumulasi selama rekursi.
+             * @returns {Array<string>|null} - Jalur lengkap sebagai array string, atau null jika tidak ditemukan.
+             */
             function findCategoryPath(data, targetCategory, currentPath = []) {
-                if (typeof data === 'string') {
+                if (typeof data === 'string') { /* If data is a string (leaf node) */
                     if (data === targetCategory) {
                         return [...currentPath, data];
                     }
-                } else if (Array.isArray(data)) {
+                } else if (Array.isArray(data)) { /* If data is an array */
+                    /* Check if targetCategory is directly in this array */
                     if (data.includes(targetCategory)) {
                         return [...currentPath, targetCategory];
                     }
+                    /* Recurse into array elements if they are objects (shouldn't happen with current data structure) */
                     for (const item of data) {
                         const foundPath = findCategoryPath(item, targetCategory, currentPath);
                         if (foundPath) return foundPath;
                     }
-                } else if (typeof data === 'object' && data !== null) {
+                } else if (typeof data === 'object' && data !== null) { /* If data is an object */
                     for (const key in data) {
                         const newPath = [...currentPath, key];
-                        if (key === targetCategory) {
+                        if (key === targetCategory) { /* Check if the key itself is the target */
                             return newPath;
                         }
                         const foundPath = findCategoryPath(data[key], targetCategory, newPath);
@@ -1348,10 +1410,11 @@
                 return null;
             }
 
+
             // Render navigasi taksonomi
             function renderTaxonomy(data, parentElement, level = 0, currentPath = []) {
                 const ul = document.createElement('ul');
-                ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-gray-600 pl-2' : ''}`;
+                ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-gray-400 pl-2' : ''}`;
 
                 Object.keys(data).sort().forEach(key => {
                     const li = document.createElement('li');
@@ -1446,25 +1509,27 @@
                 allNavItems.forEach(item => item.classList.remove('active'));
 
                 let activatedElement = null;
-                const fullTaxonomyRoot = { "Semua Invertebrata": taxonomyData["Semua Invertebrata"] };
+                const fullTaxonomyRoot = taxonomyData["Semua Invertebrata"];
 
-                let speciesCategoryPath;
-                // Coba temukan path lengkap untuk kategori yang paling spesifik (kelas atau supergrup)
-                speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.kelas || speciesDetail.category);
+                let speciesCategoryPath = null;
 
-                // Jika kategori/kelas tidak ditemukan, coba cari subfilum (jika ada)
+                // Priority 1: Search for 'kelas'
+                if (speciesDetail.kelas) {
+                    speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.kelas);
+                }
+
+                // Priority 2: If 'kelas' not found or not applicable, search for 'subFilum'
                 if (!speciesCategoryPath && speciesDetail.subFilum) {
                     speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.subFilum);
                 }
 
-                // Jika subfilum juga tidak ditemukan, coba cari filum
+                // Priority 3: If 'subFilum' not found or not applicable, search for 'filum'
                 if (!speciesCategoryPath && speciesDetail.filum) {
                     speciesCategoryPath = findCategoryPath(fullTaxonomyRoot, speciesDetail.filum);
                 }
 
-                /* If a category path is found, try to activate the most specific element */
+                /* If a category path is found, try to activate all elements in the path */
                 if (speciesCategoryPath && speciesCategoryPath.length > 0) {
-                    /* Activate all parent elements in the path */
                     for (let i = 0; i < speciesCategoryPath.length; i++) {
                         const currentPathSegment = speciesCategoryPath[i];
                         const elementToActivate = document.querySelector(`[data-category="${currentPathSegment}"]`);
@@ -1504,20 +1569,56 @@
                 linkRoot.appendChild(aRoot);
                 breadcrumbsUl.appendChild(linkRoot);
 
-                /* Build path components for breadcrumbs */
-                const pathComponents = [];
-                if (speciesFilum) pathComponents.push(speciesFilum);
-                if (speciesSubFilum) pathComponents.push(speciesSubFilum);
-                if (speciesKelas) pathComponents.push(speciesKelas);
+                /* Build path components for breadcrumbs based on hierarchy */
+                const fullTaxonomyTree = taxonomyData["Semua Invertebrata"];
+                let currentPath = ["Semua Invertebrata"]; // Start from the root for path building
 
-                /* Iterate through the path components and add them to breadcrumbs */
-                for (let i = 0; i < pathComponents.length; i++) {
-                    const part = pathComponents[i];
+                // Add Filum
+                if (speciesFilum && fullTaxonomyTree[speciesFilum]) {
+                    currentPath.push(speciesFilum);
+                }
+
+                // Add SubFilum (if applicable, e.g., for Arthropoda)
+                if (speciesFilum === "Arthropoda" && speciesSubFilum && typeof fullTaxonomyTree[speciesFilum] === 'object' && !Array.isArray(fullTaxonomyTree[speciesFilum]) && fullTaxonomyTree[speciesFilum][speciesSubFilum]) {
+                    currentPath.push(speciesSubFilum);
+                }
+
+                // Add Kelas
+                if (speciesKelas) {
+                    // Check if 'kelas' is directly under 'filum' or 'subFilum'
+                    let foundKelasInPath = false;
+                    let currentLevelData = fullTaxonomyTree;
+                    let tempPath = ["Semua Invertebrata"]; // Temporary path to traverse the taxonomy tree
+
+                    // Traverse to the correct level in the taxonomy tree based on currentPath
+                    for (let i = 1; i < currentPath.length; i++) {
+                        if (typeof currentLevelData === 'object' && currentLevelData !== null) {
+                            currentLevelData = currentLevelData[currentPath[i]];
+                            tempPath.push(currentPath[i]);
+                        } else {
+                            break; // Stop if path is invalid
+                        }
+                    }
+
+                    if (typeof currentLevelData === 'object' && currentLevelData !== null) {
+                        if (Array.isArray(currentLevelData) && currentLevelData.includes(speciesKelas)) {
+                            currentPath.push(speciesKelas);
+                            foundKelasInPath = true;
+                        } else if (typeof currentLevelData === 'object' && !Array.isArray(currentLevelData) && currentLevelData[speciesKelas]) {
+                            currentPath.push(speciesKelas);
+                            foundKelasInPath = true;
+                        }
+                    }
+                }
+
+                /* Iterate through the determined path components (excluding the initial "Semua Invertebrata" for linking) */
+                for (let i = 1; i < currentPath.length; i++) { // Start from index 1 to skip "Semua Invertebrata"
+                    const part = currentPath[i];
                     let li = document.createElement('li');
                     let a = document.createElement('a');
                     a.href = `index.html?category=${encodeURIComponent(part)}`;
                     a.className = 'hover:underline text-gray-600';
-                    a.textContent = part.replace(/_/g, ' '); // Menghapus underscore, tidak mengubah teks "Filum", "Subfilum"
+                    a.textContent = part.replace(/_/g, ' ');
                     li.appendChild(a);
                     breadcrumbsUl.appendChild(li);
                 }
