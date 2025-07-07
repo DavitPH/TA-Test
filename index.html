@@ -136,6 +136,13 @@
                 transition: filter 0.3s ease-in-out;
                 /* Add transition for smoother effect */
             }
+
+            /* --- PERUBAHAN BARU DI SINI: Target elemen <header> saat sidebar terbuka --- */
+            body.sidebar-open header {
+                pointer-events: none;
+                filter: blur(2px) grayscale(50%);
+                transition: filter 0.3s ease-in-out;
+            }
         }
 
 
@@ -255,18 +262,28 @@
                 /* Lower than overlay */
             }
 
+            /* Adjust spacing for elements within the first div on mobile */
+            /* This div now contains hamburger, logo, title, and profile icon */
             header>div:first-child {
-                margin-bottom: 0;
-                /* Remove margin-bottom */
+                display: flex;
+                /* Use flex to align items */
+                align-items: center;
+                /* Vertically center items */
+                gap: 0.5rem;
+                /* Small gap between items */
+                width: auto;
+                /* Let content dictate width */
             }
 
             header>div:last-child {
-                width: auto;
-                /* Let content dictate width */
+                width: 100%;
+                /* Take full width for search bar */
                 flex-direction: row;
                 justify-content: flex-end;
                 /* Align to end */
                 align-items: center;
+                margin-top: 0.5rem;
+                /* Add some space above search bar */
             }
 
             .search-input {
@@ -388,6 +405,11 @@
                 <i class="fas fa-bars hamburger-icon mr-4 md:hidden" id="hamburgerMenu"></i>
                 <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
                 <span class="text-2xl font-bold text-gray-800">Invertebrata Kaltara</span>
+                <!-- Profile icon moved here -->
+                <a href="#"
+                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0 ml-auto md:ml-4">
+                    DA
+                </a>
             </div>
             <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
                 <div class="relative w-full md:w-80">
@@ -395,10 +417,6 @@
                     <i
                         class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"></i>
                 </div>
-                <a href="#"
-                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
-                    DA
-                </a>
             </div>
         </header>
 
