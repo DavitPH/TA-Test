@@ -37,15 +37,18 @@
             .sidebar-wrapper {
                 position: fixed;
                 top: 0;
-                left: -280px;
-                /* Start off-screen, matches sidebar width */
-                width: 280px;
-                /* Fixed width for mobile sidebar */
+                left: -70vw;
+                /* Start off-screen, matches new sidebar width */
+                width: 70vw;
+                /* Adjusted to 70% of viewport width for responsiveness */
+                max-width: 250px;
+                /* Max width to prevent it from being too large on wider mobiles */
                 height: 100vh;
                 background-color: #15803D;
-                z-index: 50;
-                /* Above main content */
-                transition: left 0.3s ease-in-out;
+                z-index: 100;
+                /* Highest z-index for the sidebar itself */
+                transition: left 0.4s ease-in-out;
+                /* Smooth transition for sliding, adjusted to 0.4s */
                 box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
                 padding-top: 5rem;
                 /* Space for fixed header */
@@ -74,8 +77,8 @@
                 width: 100%;
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.5);
-                z-index: 40;
-                /* Below sidebar, above main content */
+                z-index: 90;
+                /* Between sidebar and header/main content */
                 display: none;
                 /* Hidden by default */
                 transition: opacity 0.3s ease-in-out;
@@ -97,6 +100,25 @@
                 color: #2c3e50;
                 /* Dark color for icon */
                 cursor: pointer;
+            }
+
+            /* Hide hamburger icon when sidebar is open */
+            body.sidebar-open .hamburger-icon {
+                display: none;
+            }
+
+            /* Style for the close button inside the sidebar (now also a hamburger icon) */
+            .sidebar-close-btn {
+                display: block;
+                /* Show close button on mobile */
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.8rem;
+                color: white;
+                cursor: pointer;
+                z-index: 110;
+                /* Ensure it's above sidebar content */
             }
 
             /* Adjust main content area when sidebar is open */
@@ -229,8 +251,8 @@
                 /* Make header sticky */
                 top: 0;
                 width: 100%;
-                z-index: 60;
-                /* Ensure header is above sidebar and overlay */
+                z-index: 80;
+                /* Lower than overlay */
             }
 
             header>div:first-child {
@@ -335,6 +357,11 @@
                 pointer-events: auto;
                 filter: none;
             }
+
+            /* Hide close button on desktop */
+            .sidebar-close-btn {
+                display: none;
+            }
         }
 
 
@@ -378,6 +405,8 @@
         <div class="flex-1 flex flex-col md:flex-row p-4 gap-4 md:space-x-4">
             <!-- Sidebar Wrapper (new element for mobile sidebar functionality) -->
             <div class="sidebar-wrapper" id="sidebarWrapper">
+                <!-- Close button for mobile sidebar (now also a hamburger icon) -->
+                <i class="fas fa-bars sidebar-close-btn md:hidden" id="sidebarCloseBtn"></i>
                 <aside class="sidebar">
                     <nav id="taxonomy-nav">
                     </nav>
@@ -485,6 +514,7 @@
         const hamburgerMenu = document.getElementById('hamburgerMenu');
         const sidebarWrapper = document.getElementById('sidebarWrapper');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn'); // Get the new close button
         const mainContentArea = document.querySelector('main'); // Select the main content area
 
         // Function to open the sidebar
@@ -507,6 +537,10 @@
         }
         if (sidebarOverlay) {
             sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+        // Event listener for the new close button
+        if (sidebarCloseBtn) {
+            sidebarCloseBtn.addEventListener('click', closeSidebar);
         }
 
         // Close sidebar when a navigation item is clicked
@@ -700,11 +734,6 @@
                         // Kelas-kelas di bawah filum seperti Protozoa, Cnidaria, dll.
                         subNavItemDiv.className = `nav-item cursor-pointer text-xs py-1 px-3 rounded-lg font-normal`;
                         subNavItemDiv.style.paddingLeft = `${0.5 + (level + 1) * 1}rem`;
-
-                        // Ini untuk sub-item seperti Gastropoda di dalam Mollusca
-                        if (subItemKey === "Gastropoda" && fullPathSegment.includes("Mollusca")) {
-                            subItemContentHTML = `<span>${subItemKey.replace(/_/g, ' ')} <span class="new-label">NEW</span></span>`;
-                        }
 
                         // Semua item langsung di bawah array harus fas fa-arrow-right
                         subNavItemDiv.innerHTML = `<i class="fas fa-arrow-right mr-2 text-xs"></i> ${subItemContentHTML}`;
