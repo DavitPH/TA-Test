@@ -24,64 +24,221 @@
             background-color: #f0f2f5;
         }
 
-        /* Kelas .container ini tidak lagi memengaruhi header secara langsung */
-        .container {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
+        /* Base Sidebar and Header/Main Content Container */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
         }
 
-        /* Styling untuk header utama (Sekarang mirip dengan index.html) */
-        .header {
-            background-color: #ffffff;
+        /* Sidebar styles */
+        .sidebar-wrapper {
+            width: 250px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            background-color: #15803D;
+            color: white;
+            padding: 1.5rem 1rem;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            transition: transform 0.4s ease-in-out;
+            transform: translateX(0);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0.5rem 0;
+        }
+
+        .sidebar-header img {
+            height: 50px;
+            width: 50px;
+            margin-right: 0.75rem;
+        }
+
+        .sidebar-header span {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li {
+            margin-bottom: 0.0625rem;
+        }
+
+        .sidebar nav li .nav-item {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.3rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar nav li .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar nav li .nav-item.active {
+            background-color: #106F30;
+            color: white;
+        }
+
+        .sidebar nav li .nav-item i {
+            margin-right: 1rem;
+            width: 1.25rem;
+            text-align: center;
+        }
+
+        /* Main content area (Header + Body Content) */
+        .main-content-area-wrapper {
+            flex-grow: 1;
+            margin-left: 250px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Header styles */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        header .hamburger-icon {
+            font-size: 1.5rem;
+            color: #4A5568;
+            cursor: pointer;
+            display: none;
+            margin-right: 1rem;
+        }
+
+        header .search-container {
+            flex-grow: 1;
+            max-width: 400px;
+            position: relative;
+            margin-right: 1.5rem;
+        }
+
+        header .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            padding-left: 2.5rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.375rem;
+            background-color: #F8FAFC;
+            font-size: 0.9rem;
+            color: #2D3748;
+        }
+
+        header .search-input::placeholder {
+            color: #A0AEC0;
+        }
+
+        header .search-input:focus {
+            outline: none;
+            border-color: #4299E1;
+            box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
+        }
+
+        header .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #A0AEC0;
+        }
+
+        header .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        header .user-actions>button,
+        header .user-actions>a {
+            color: #4A5568;
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: color 0.2s;
+        }
+
+        header .user-actions>button:hover,
+        header .user-actions>a:hover {
+            color: #2D3748;
+        }
+
+        header .user-actions .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 9999px;
+            background-color: #CBD5E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #4A5568;
+            overflow: hidden;
+        }
+
+        header .user-actions .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Main content area below the header */
+        main.main-content-body {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .header .logo span {
-            font-weight: 700;
-            color: #2c3e50;
-            font-size: 1.5rem;
+        .main-content-area {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
-        /* Menyamakan warna btn-primary dengan tema hijau tua */
-        .btn-primary {
-            background-color: #F97A00;
-            /* Changed to F97A00 */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #e06c00;
-            /* Darker shade for hover */
-        }
-
-        /* Lebar search input disamakan agar konsisten dengan index.html */
-        .search-input {
-            border: 1px solid #cbd5e0;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            width: 100%;
-            /* Default ke lebar penuh untuk mobile first */
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #1a4a2a;
-        }
-
+        /* Breadcrumbs container */
         .breadcrumb-container {
             background-color: white;
-            padding: 1rem;
-            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             margin-bottom: 1.5rem;
         }
@@ -89,9 +246,7 @@
         .breadcrumb {
             color: #6c757d;
             flex-wrap: wrap;
-            /* Allow breadcrumbs to wrap */
             overflow: hidden;
-            /* Hide potential overflow, combine with flex-wrap */
         }
 
         .breadcrumb li+li::before {
@@ -116,192 +271,17 @@
             pointer-events: none;
         }
 
-        /* Sidebar: Default for larger screens and handles responsive stacking for mobile */
-        .sidebar {
-            background-color: #15803D;
-            /* Warna Jawel */
+        /* New Label Styles */
+        .new-label {
+            background-color: #F97A00;
             color: white;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            overflow-y: auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-            width: 250px;
-            /* Default width for larger screens */
-            height: calc(100vh - 8rem);
-            /* Take remaining vertical space on desktop */
-        }
-
-        /* Mobile adjustments for sidebar.
-           It should still be scrollable, but take full width and height will be limited by parent or set to auto
-           to stack correctly. */
-        @media (max-width: 767px) {
-            .sidebar-wrapper {
-                position: fixed;
-                top: 0;
-                left: -70vw;
-                /* Start off-screen, matches new sidebar width */
-                width: 70vw;
-                /* Adjusted to 70% of viewport width for responsiveness */
-                max-width: 250px;
-                /* Max width to prevent it from being too large on wider mobiles */
-                height: 100vh;
-                background-color: #15803D;
-                z-index: 100;
-                /* Highest z-index for the sidebar itself */
-                transition: left 0.4s ease-in-out;
-                /* Smooth transition for sliding, adjusted to 0.4s */
-                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-                padding-top: 5rem;
-                /* Space for fixed header */
-                overflow-y: auto;
-            }
-
-            .sidebar-wrapper.open {
-                left: 0;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-                /* Allow content to dictate height */
-                border-radius: 0;
-                /* Remove border-radius for full screen side effect */
-                box-shadow: none;
-                padding-top: 0;
-                /* Adjust padding if needed inside wrapper */
-                margin-bottom: 0;
-                /* Remove margin-bottom from sidebar itself */
-            }
-
-            .overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 90;
-                /* Between sidebar and header/main content */
-                display: none;
-                /* Hidden by default */
-                transition: opacity 0.3s ease-in-out;
-                /* Add transition for smoother fade */
-                opacity: 0;
-                /* Start hidden */
-            }
-
-            .overlay.active {
-                display: block;
-                opacity: 1;
-                /* Fade in */
-            }
-
-            .hamburger-icon {
-                display: block;
-                /* Show hamburger on mobile */
-                font-size: 1.8rem;
-                color: #2c3e50;
-                /* Dark color for icon */
-                cursor: pointer;
-            }
-
-            /* Hide hamburger icon when sidebar is open */
-            body.sidebar-open .hamburger-icon {
-                display: none;
-            }
-
-            /* Style for the close button inside the sidebar (now also a hamburger icon) */
-            .sidebar-close-btn {
-                display: block;
-                /* Show close button on mobile */
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                font-size: 1.8rem;
-                color: white;
-                cursor: pointer;
-                z-index: 110;
-                /* Ensure it's above sidebar content */
-            }
-
-            /* Adjust main content area when sidebar is open */
-            body.sidebar-open {
-                overflow: hidden;
-                /* Prevent scrolling of the main content */
-            }
-
-            /* --- PERUBAHAN DI SINI: Target elemen <main> --- */
-            body.sidebar-open main {
-                /* When sidebar is open, dim the main content and make it unclickable */
-                pointer-events: none;
-                filter: blur(2px) grayscale(50%);
-                /* Example: blur and dim */
-                transition: filter 0.3s ease-in-out;
-                /* Add transition for smoother effect */
-            }
-
-            /* --- PERUBAHAN BARU DI SINI: Target elemen <header> saat sidebar terbuka --- */
-            body.sidebar-open header {
-                pointer-events: none;
-                filter: blur(2px) grayscale(50%);
-                transition: filter 0.3s ease-in-out;
-            }
-        }
-
-
-        .sidebar .nav-item-header {
-            padding: 0.5rem 0.5rem;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-            font-weight: bold;
-        }
-
-        /* Mengubah warna hover item navigasi header menjadi #116631 */
-        .sidebar .nav-item-header:hover {
-            background-color: #116631;
-        }
-
-        /* Mengubah warna aktif item navigasi header menjadi #116631 */
-        .sidebar .nav-item-header.active {
-            background-color: #116631;
-            font-weight: 600;
-        }
-
-        .sidebar .nav-list-item {
-            display: block;
-            padding: 0.5rem 0.5rem;
-            color: white;
-            transition: background-color 0.2s ease;
-            border-radius: 0.5rem;
-        }
-
-        /* Mengubah warna hover item navigasi list menjadi #116631 */
-        .sidebar .nav-list-item:hover {
-            background-color: #116631;
-        }
-
-        /* Mengubah warna aktif item navigasi list menjadi #116631 */
-        .sidebar .nav-list-item.active {
-            background-color: #116631;
-            font-weight: 600;
-        }
-
-        /* Indentation for taxonomy levels */
-        .indent-0 {
-            padding-left: 0.5rem;
-            font-weight: 600;
-        }
-
-        .indent-1 {
-            padding-left: 1.5rem;
-            font-weight: normal;
-        }
-
-        .indent-2 {
-            padding-left: 2.5rem;
-            font-weight: normal;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.3rem;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            display: inline-block;
         }
 
         /* Consistent main content */
@@ -317,7 +297,6 @@
         /* Menyamakan warna btn di action-buttons dengan tema hijau tua */
         .species-header .action-buttons .btn {
             background-color: #F97A00;
-            /* Changed to F97A00 */
             color: white;
             border-radius: 0.5rem;
             padding: 0.75rem 1.25rem;
@@ -328,7 +307,6 @@
 
         .species-header .action-buttons .btn:hover {
             background-color: #e06c00;
-            /* Darker shade for hover */
         }
 
         /* Updated h1 styling: always row, align items baseline for better visual alignment */
@@ -337,13 +315,9 @@
             font-size: 2.25rem;
             font-weight: 700;
             display: flex;
-            /* Always flex */
             flex-direction: row;
-            /* Always row */
             align-items: baseline;
-            /* Align items to their text baseline */
             gap: 0.75rem;
-            /* Space between common name and status */
         }
 
         .species-header p {
@@ -359,16 +333,13 @@
             margin-top: 1.5rem;
             align-items: flex-start;
             flex-direction: column;
-            /* Default: stack vertically (mobile-first) */
         }
 
         .main-image-wrapper {
             position: relative;
             flex-grow: 1;
             flex-basis: 100%;
-            /* Full width on mobile */
             max-width: 100%;
-            /* Full width on mobile */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -395,34 +366,24 @@
         .thumbnail-gallery {
             display: flex;
             flex-direction: row;
-            /* Mobile: thumbnails in a row */
             gap: 0.5rem;
             overflow-x: auto;
-            /* Mobile: enable horizontal scrolling */
             overflow-y: hidden;
-            /* Mobile: hide vertical overflow */
             max-height: none;
-            /* Mobile: remove max height */
             flex-basis: 100%;
-            /* Mobile: full width for thumbnails */
             padding-right: 0;
             justify-content: flex-start;
-            /* Align items to start for horizontal scroll */
             flex-wrap: nowrap;
-            /* Prevent wrapping to ensure horizontal scroll */
         }
 
         /* Inner container for thumbnails to control their layout */
         .thumbnail-gallery #thumbnailContainer {
             display: flex;
             flex-direction: row;
-            /* Mobile default: horizontal row */
             gap: 0.5rem;
             flex-wrap: nowrap;
-            /* Prevent wrapping in horizontal scroll */
             justify-content: flex-start;
         }
-
 
         .thumbnail-gallery img {
             width: 90px;
@@ -433,7 +394,6 @@
             cursor: pointer;
             transition: border-color 0.2s ease;
             flex-shrink: 0;
-            /* Prevent images from shrinking on mobile */
         }
 
         .thumbnail-gallery img.active {
@@ -516,11 +476,9 @@
 
         /* Perubahan untuk map-container menjadi elemen Leaflet */
         #speciesMapContainer {
-            /* ID diubah untuk menghindari konflik dengan #map di tambahPeta.html */
             width: 80%;
             max-width: 700px;
             height: 400px;
-            /* Tinggi tetap untuk peta interaktif */
             background-color: #f0f0f0;
             border-radius: 0.5rem;
             border: 1px solid #ddd;
@@ -528,7 +486,6 @@
             margin-left: auto;
             margin-right: auto;
             z-index: 0;
-            /* Penting agar Leaflet bekerja dengan benar */
         }
 
         /* Gaya untuk tombol filter peta jika ada banyak peta GeoJSON */
@@ -556,7 +513,6 @@
 
         .map-filter-buttons button.active {
             background-color: #1a4a2a;
-            /* Warna hijau tema */
             color: white;
             border-color: #1a4a2a;
         }
@@ -641,6 +597,23 @@
             text-decoration: underline;
         }
 
+        /* Gaya untuk tombol Kirim Komentar dan Kirim Balasan */
+        .btn-primary {
+            background-color: #F97A00;
+            /* Warna oranye */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #e06c00;
+            /* Warna oranye lebih gelap saat hover */
+        }
+
         .btn-cancel {
             background-color: #6c757d;
             color: white;
@@ -704,97 +677,111 @@
         }
 
 
-        /* Responsiveness Media Queries */
-        /* Changes for mobile layout will be applied here using max-width */
+        /* --- MOBILE SPECIFIC STYLES --- */
         @media (max-width: 767px) {
 
-            /* Header adjustments for mobile */
+            /* Adjust sidebar for off-canvas effect */
+            .sidebar-wrapper {
+                transform: translateX(-100%);
+                box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+            }
+
+            .sidebar-wrapper.open {
+                transform: translateX(0);
+            }
+
+            /* Header on mobile */
             header {
-                flex-direction: column;
-                /* Stack elements vertically on mobile */
-                justify-content: space-between;
-                align-items: center;
-                padding-bottom: 1rem;
-                position: sticky;
-                top: 0;
+                position: fixed;
                 width: 100%;
+                left: 0;
+                top: 0;
+                padding: 0.75rem 1rem;
+                justify-content: flex-start;
+                gap: 0.5rem;
                 z-index: 60;
             }
 
-            header>div:first-child {
-                display: flex;
-                /* Use flex to align items */
-                align-items: center;
-                /* Vertically center items */
+            header .hamburger-icon {
+                display: block;
+            }
+
+            header .search-container {
+                margin-right: 0.5rem;
+                max-width: none;
+            }
+
+            header .user-actions {
                 gap: 0.5rem;
-                /* Small gap between items */
-                width: 100%;
-                /* Take full width for alignment */
-                justify-content: space-between;
-                /* Space out hamburger, logo, title, and profile */
-                margin-bottom: 0;
-                /* Remove margin-bottom */
             }
 
-            header>div:last-child {
-                width: 100%;
-                /* Take full width for search bar */
-                flex-direction: row;
-                justify-content: flex-end;
-                /* Align to end */
-                align-items: center;
-                margin-top: 0.5rem;
-                /* Add some space above search bar */
+            header .user-actions>button,
+            header .user-actions>a {
+                font-size: 1rem;
             }
 
-            .search-input {
-                width: 100%;
-                /* Full width within its container */
+            header .user-actions .profile-avatar {
+                width: 30px;
+                height: 30px;
             }
 
-            /* Main content area layout for mobile */
-            .flex-1.flex.p-4.space-x-4 {
-                /* Target this specific container div */
-                flex-direction: column;
-                /* Stack sidebar and main content */
-                gap: 1rem;
-                /* Space between stacked elements */
-                padding: 1rem;
-                /* Adjust padding */
-            }
-
-            /* Sidebar on mobile: It should still be scrollable, but take full width and height will be limited by parent or set to auto
-               to stack correctly. */
-            .sidebar-wrapper {
-                width: 70vw;
-                /* Adjusted to 70% of viewport width for responsiveness */
-                max-width: 250px;
-                /* Max width to prevent it from being too large on wider mobiles */
-                height: 100vh;
-                margin-bottom: 0;
-                /* No margin below sidebar when it's a fixed overlay */
-            }
-
-            .sidebar {
-                width: 100%;
+            /* Main content area wrapper on mobile */
+            .main-content-area-wrapper {
+                margin-left: 0;
+                padding-top: 4rem;
                 height: auto;
-                margin-bottom: 0;
-                /* Ensure this is reset for the internal sidebar */
             }
 
+            /* Overlay for when sidebar is open */
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+                display: none;
+                opacity: 0;
+                transition: opacity 0.4s ease-in-out;
+            }
+
+            .overlay.active {
+                display: block;
+                opacity: 1;
+            }
+
+            /* Prevent scrolling of body when sidebar is open */
             body.sidebar-open {
                 overflow: hidden;
-                /* Prevent scrolling of the main content */
             }
 
-            body.sidebar-open .main-content {
-                /* When sidebar is open, dim the main content and make it unclickable */
+            /* Dim and disable main content when sidebar is open */
+            body.sidebar-open .main-content-area-wrapper {
                 pointer-events: none;
                 filter: blur(2px) grayscale(50%);
-                /* Example: blur and dim */
+                transition: filter 0.4s ease-in-out;
             }
 
+            body.sidebar-open header {
+                pointer-events: none;
+                filter: blur(2px) grayscale(50%);
+                transition: filter 0.4s ease-in-out;
+            }
 
+            /* Sidebar close button inside sidebar (visible only on mobile) */
+            .sidebar-close-btn {
+                position: absolute;
+                top: 1.5rem;
+                right: 1.5rem;
+                font-size: 1.8rem;
+                color: white;
+                cursor: pointer;
+                z-index: 60;
+                display: block;
+            }
+
+            /* Main content padding on mobile */
             .main-content {
                 padding: 1rem;
                 min-height: auto;
@@ -810,18 +797,13 @@
             .species-header h1 {
                 font-size: 1.75rem;
                 flex-direction: row;
-                /* Keep it row for inline badge */
                 align-items: baseline;
-                /* Align text baseline */
                 flex-wrap: wrap;
-                /* Allow common name and status to wrap if space is tight */
             }
 
             .species-header h1 #conservationStatus {
                 flex-shrink: 0;
-                /* Prevent the badge from shrinking */
             }
-
 
             .species-header p {
                 font-size: 1rem;
@@ -851,19 +833,12 @@
 
             .thumbnail-gallery {
                 flex-direction: row;
-                /* Mobile: thumbnails in a row */
                 flex-wrap: nowrap;
-                /* Prevent wrapping */
                 justify-content: flex-start;
-                /* Align to start */
                 width: 100%;
-                /* Take full width */
                 max-height: none;
-                /* No max height constraint */
                 overflow-x: auto;
-                /* Enable horizontal scroll */
                 overflow-y: hidden;
-                /* Hide vertical overflow */
                 padding-right: 0;
             }
 
@@ -871,7 +846,6 @@
                 width: 80px;
                 height: 80px;
                 flex-shrink: 0;
-                /* Important to prevent shrinking */
             }
 
             .species-tabs button {
@@ -888,81 +862,139 @@
             }
 
             /* Comments section on mobile */
+            .comments-section {
+                margin-top: 1rem;
+                /* Adjusted from 2 to 1 */
+            }
+
+            .comments-section h2 {
+                margin-bottom: 0.75rem;
+                /* Adjusted from 1 to 0.75 */
+            }
+
+            .comment-form {
+                padding: 0.75rem;
+                /* Adjusted from 1 to 0.75 */
+                margin-bottom: 0.75rem;
+                /* Adjusted from 1 to 0.75 */
+            }
+
+            .comment-form textarea {
+                min-height: 60px;
+                /* Adjusted from 80 to 60 */
+                padding: 0.5rem;
+                /* Adjusted from 0.75 to 0.5 */
+                margin-bottom: 0.5rem;
+                /* Adjusted from 0.75 to 0.5 */
+            }
+
             .comment-item {
                 flex-direction: column;
                 align-items: flex-start;
+                padding: 0.6rem;
+                /* Adjusted from 0.75 to 0.6 */
             }
 
             .comment-avatar {
+                width: 36px;
+                /* Slightly smaller avatar */
+                height: 36px;
+                font-size: 0.9rem;
                 margin-right: 0;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.4rem;
+                /* Adjusted from 0.5 to 0.4 */
+            }
+
+            .comment-header {
+                font-size: 0.9rem;
+                /* Slightly smaller font */
+            }
+
+            .comment-meta {
+                font-size: 0.75rem;
+                /* Slightly smaller font */
+            }
+
+            .comment-body {
+                font-size: 0.85rem;
+                /* Slightly smaller font */
             }
 
             .nested-comment {
-                margin-left: 1rem;
-                padding-left: 0.5rem;
+                margin-left: 0.75rem;
+                /* Adjusted from 1 to 0.75 */
+                padding-left: 0.4rem;
+                /* Adjusted from 0.5 to 0.4 */
             }
 
             .trash-icon {
-                top: 0.75rem;
-                right: 0.75rem;
+                top: 0.6rem;
+                /* Adjusted from 0.75 to 0.6 */
+                right: 0.6rem;
+                /* Adjusted from 0.75 to 0.6 */
+                font-size: 1rem;
+                /* Slightly smaller icon */
+            }
+
+            /* Buttons in comment form */
+            .btn-primary,
+            .btn-cancel {
+                padding: 0.5rem 1rem;
+                /* Smaller padding for buttons */
+                font-size: 0.85rem;
+                /* Smaller font for buttons */
             }
 
             /* Breadcrumbs font size on mobile */
             .breadcrumb {
                 font-size: 0.7rem;
-                /* Even smaller font size for mobile breadcrumbs */
             }
         }
 
-        /* Desktop specific styles (min-width applies from this breakpoint onwards) */
+        /* --- DESKTOP SPECIFIC STYLES (Revert mobile-only styles) --- */
         @media (min-width: 768px) {
+            .sidebar-wrapper {
+                transform: translateX(0);
+            }
+
             .hamburger-icon {
                 display: none;
             }
 
-            .sidebar-wrapper {
+            header {
                 position: static;
-                width: 250px;
-                /* Original desktop width */
-                height: calc(100vh - 8rem);
-                padding-top: 0;
-                /* No extra padding */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                width: auto;
+                left: auto;
+                top: auto;
+                z-index: auto;
+                padding: 1rem 1.5rem;
             }
 
-            .sidebar {
-                width: 100%;
-                height: 100%;
-                border-radius: 0.75rem;
-                margin-bottom: 1rem;
-                /* Original margin */
+            .main-content-area-wrapper {
+                margin-left: 250px;
+                padding-top: 0;
             }
 
             .overlay {
                 display: none !important;
-                /* Ensure overlay is always hidden on desktop */
             }
 
             body.sidebar-open {
-                /* Ensure desktop body is not affected */
                 overflow: auto;
             }
 
-            body.sidebar-open .main-content {
-                /* Ensure desktop main content is not affected */
+            body.sidebar-open .main-content-area-wrapper,
+            body.sidebar-open header {
                 pointer-events: auto;
                 filter: none;
             }
 
-            header {
-                flex-direction: row;
-                /* Ensure desktop header is row */
+            .sidebar-close-btn {
+                display: none;
             }
 
             .species-gallery {
                 flex-direction: row;
-                /* Desktop: main image and thumbnails side-by-side */
             }
 
             .main-image-wrapper {
@@ -972,11 +1004,8 @@
 
             .thumbnail-gallery {
                 flex-direction: column;
-                /* Desktop: thumbnails stacked vertically */
                 overflow-y: auto;
-                /* Enable vertical scrolling */
                 overflow-x: hidden;
-                /* Hide horizontal scroll on desktop */
                 max-height: 220px;
                 flex-basis: 35%;
             }
@@ -985,7 +1014,6 @@
             .thumbnail-gallery #thumbnailContainer {
                 flex-direction: column;
                 justify-content: flex-start;
-                /* Align to top */
             }
 
             #speciesMapContainer {
@@ -993,51 +1021,52 @@
             }
         }
 
-        /* Style for the new label - copied from index.html */
-        .new-label {
-            background-color: #F97A00;
+        /* Active navigation item styling */
+        #taxonomy-nav .nav-item.active {
+            background-color: #106F30;
             color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.1rem 0.4rem;
-            border-radius: 0.3rem;
-            margin-left: 0.5rem;
-            vertical-align: middle;
-            /* Align with text baseline */
+        }
+
+        /* Border on taxonomy sub-levels */
+        #taxonomy-nav ul.space-y-1.ml-4.border-l {
+            border-color: rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
 
 <body>
-    <div class="min-h-screen flex flex-col">
-        <header class="bg-white shadow-md p-4 flex flex-row items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-bars hamburger-icon mr-4 md:hidden" id="hamburgerMenu"></i>
-                <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
-                <span class="text-lg font-bold text-gray-800 md:text-2xl mr-2">Invertebrata Kaltara</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative w-full md:w-80">
-                    <input type="text" placeholder="Cari spesies..." class="search-input pr-10" id="searchInput">
-                    <i id="searchIcon"
-                        class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 cursor-pointer"></i>
-                </div>
-                <a href="#"
-                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
-                    DA
-                </a>
-            </div>
-        </header>
+    <div class="dashboard-container">
+        <div class="sidebar-wrapper" id="sidebarWrapper">
+            <i class="fas fa-times sidebar-close-btn md:hidden" id="sidebarCloseBtn"></i>
 
-        <div class="flex-1 flex p-4 space-x-4">
-            <div class="sidebar-wrapper" id="sidebarWrapper">
-                <i class="fas fa-bars sidebar-close-btn md:hidden" id="sidebarCloseBtn"></i>
-                <aside class="sidebar">
-                    <nav id="taxonomy-nav">
-                    </nav>
-                </aside>
-            </div>
-            <main class="flex-1 flex flex-col space-y-4">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <img src="images/logo.png" alt="Invertebrata Kaltara Logo">
+                    <span>Invertebrata Kaltara</span>
+                </div>
+
+                <nav id="taxonomy-nav" class="flex-grow">
+                </nav>
+            </aside>
+        </div>
+
+        <div class="main-content-area-wrapper">
+            <header>
+                <i class="fas fa-bars hamburger-icon md:hidden" id="hamburgerMenu"></i>
+
+                <div class="search-container">
+                    <input type="text" placeholder="Cari spesies..." class="search-input" id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+
+                <div class="user-actions">
+                    <a href="#" class="profile-avatar">
+                        <img src="images/profil.jpg" alt="DA">
+                    </a>
+                </div>
+            </header>
+
+            <main class="main-content-body flex-1">
                 <div class="breadcrumb-container">
                     <ul class="breadcrumb flex text-sm" id="dynamic-breadcrumbs">
                     </ul>
@@ -1253,20 +1282,19 @@
             const hamburgerMenu = document.getElementById('hamburgerMenu');
             const sidebarWrapper = document.getElementById('sidebarWrapper');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
-            // const mainContentArea = document.querySelector('main'); // Select the main content area - not used directly in this scope
 
             // Function to open the sidebar
             function openSidebar() {
                 sidebarWrapper.classList.add('open');
                 sidebarOverlay.classList.add('active');
-                document.body.classList.add('sidebar-open'); // Add class to body to prevent scrolling and dim main content
+                document.body.classList.add('sidebar-open');
             }
 
             // Function to close the sidebar
             function closeSidebar() {
                 sidebarWrapper.classList.remove('open');
                 sidebarOverlay.classList.remove('active');
-                document.body.classList.remove('sidebar-open'); // Remove class from body
+                document.body.classList.remove('sidebar-open');
             }
 
             // Event Listeners for Hamburger and Overlay
@@ -1286,8 +1314,7 @@
             // Close sidebar when a navigation item is clicked
             const taxonomyNav = document.getElementById('taxonomy-nav');
             taxonomyNav.addEventListener('click', (event) => {
-                if (event.target.closest('.nav-list-item') || event.target.closest('.nav-item-header')) {
-                    // Check if it's a mobile view before closing sidebar
+                if (event.target.closest('.nav-item')) { // Changed from .nav-list-item or .nav-item-header
                     if (window.innerWidth < 768) {
                         closeSidebar();
                     }
@@ -1297,7 +1324,7 @@
             // Add a listener to close sidebar on resize if it becomes desktop view
             window.addEventListener('resize', () => {
                 if (window.innerWidth >= 768) {
-                    closeSidebar(); // Ensure sidebar is closed when resizing to desktop
+                    closeSidebar();
                 }
             });
 
@@ -1363,35 +1390,30 @@
             }
 
             // --- Logika Sidebar Taksonomi ---
-            // const taxonomyNav = document.getElementById('taxonomy-nav'); // Already declared above
-
             /**
-             * Fungsi pembantu untuk menemukan jalur lengkap kategori dalam data taksonomi.
-             * Ini akan mencari baik kunci (kategori induk) maupun nilai (kategori daun).
-             * @param {object|Array|string} data - Objek data taksonomi (atau bagian darinya).
-             * @param {string} targetCategory - Kategori yang ingin dicari jalurnya.
-             * @param {Array<string>} currentPath - Jalur saat ini yang terakumulasi selama rekursi.
-             * @returns {Array<string>|null} - Jalur lengkap sebagai array string, atau null jika tidak ditemukan.
+             * Helper function to find the full path of a category in the taxonomy data.
+             * @param {object|Array|string} data - The taxonomy data object (or a part of it).
+             * @param {string} targetCategory - The category to find the path for.
+             * @param {Array<string>} currentPath - The current path accumulated during recursion.
+             * @returns {Array<string>|null} - The full path as an array of strings, or null if not found.
              */
             function findCategoryPath(data, targetCategory, currentPath = []) {
-                if (typeof data === 'string') { /* If data is a string (leaf node) */
+                if (typeof data === 'string') {
                     if (data === targetCategory) {
                         return [...currentPath, data];
                     }
-                } else if (Array.isArray(data)) { /* If data is an array */
-                    /* Check if targetCategory is directly in this array */
+                } else if (Array.isArray(data)) {
                     if (data.includes(targetCategory)) {
                         return [...currentPath, targetCategory];
                     }
-                    /* Recurse into array elements if they are objects (shouldn't happen with current data structure) */
                     for (const item of data) {
                         const foundPath = findCategoryPath(item, targetCategory, currentPath);
                         if (foundPath) return foundPath;
                     }
-                } else if (typeof data === 'object' && data !== null) { /* If data is an object */
+                } else if (typeof data === 'object' && data !== null) {
                     for (const key in data) {
                         const newPath = [...currentPath, key];
-                        if (key === targetCategory) { /* Check if the key itself is the target */
+                        if (key === targetCategory) {
                             return newPath;
                         }
                         const foundPath = findCategoryPath(data[key], targetCategory, newPath);
@@ -1403,11 +1425,10 @@
                 return null;
             }
 
-
-            // Render navigasi taksonomi
+            // Renders the taxonomy navigation in the sidebar
             function renderTaxonomy(data, parentElement, level = 0, currentPath = []) {
                 const ul = document.createElement('ul');
-                ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-gray-400 pl-2' : ''}`;
+                ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-green-500 pl-2' : ''}`;
 
                 Object.keys(data).sort().forEach(key => {
                     const li = document.createElement('li');
@@ -1418,42 +1439,46 @@
                     let iconClass = '';
                     let contentHTML = `<span>${displayKey}</span>`;
 
-                    if (key === "Semua Invertebrata") { // Root
+                    if (key === "Semua Invertebrata") {
                         iconClass = 'fas fa-globe';
                         fontWeightClass = 'font-bold';
-                    } else if (key === "Arthropoda") { // Kasus spesifik untuk Arthropoda (ikon folder)
+                    } else if (key === "Arthropoda") {
                         iconClass = 'fas fa-folder';
                         fontWeightClass = 'font-bold';
                     } else if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-                        // Ini menangani objek/folder lain yang merupakan induk taksonomi (misal: Chelicerata, Myriapoda, Crustacea, Hexapoda)
-                        iconClass = 'fas fa-folder'; // Ikon folder untuk semua node induk/cabang lainnya
-                        if (level === 0) { // Jika ini adalah Filum lain (selain Protozoa)
+                        iconClass = 'fas fa-folder';
+                        if (level === 0) {
                             fontWeightClass = 'font-bold';
-                        } else { // Jika ini adalah Subfilum
+                        } else {
                             fontWeightClass = 'font-semibold';
                         }
                     } else if (Array.isArray(data[key])) {
-                        // Ini menangani kategori yang merupakan induk langsung dari array string (Filum yang langsung berisi Kelas)
-                        // Contoh: Protozoa, Cnidaria, Echinodermata, Platyhelminthes, Annelida, Mollusca
-                        iconClass = 'fas fa-sitemap'; // Ikon sitemap untuk filum yang langsung berisi kelas
+                        iconClass = 'fas fa-sitemap';
                         fontWeightClass = 'font-bold';
                     } else {
-                        // Ini menangani node daun yang merupakan string langsung dalam struktur taxonomyData (misal Kelas)
-                        iconClass = 'fas fa-arrow-right'; // Ikon panah kanan untuk semua node daun
+                        iconClass = 'fas fa-arrow-right';
                         fontWeightClass = 'font-normal';
                     }
 
+                    const navItemDiv = document.createElement('div');
+                    navItemDiv.className = `nav-item cursor-pointer text-sm py-1 px-3 rounded-lg ${fontWeightClass}`;
+                    navItemDiv.style.paddingLeft = `${0.5 + level * 1}rem`;
 
-                    // Tambahkan label "NEW" khusus untuk Gastropoda di bawah Mollusca
+                    const iconElement = document.createElement('i');
+                    iconElement.className = `${iconClass} mr-2`;
+                    navItemDiv.appendChild(iconElement);
+
+                    const textSpan = document.createElement('span');
+                    textSpan.textContent = displayKey;
+                    navItemDiv.appendChild(textSpan);
+
                     if (key === "Gastropoda" && fullPathSegment.includes("Mollusca")) {
-                        contentHTML = `<span>${displayKey} <span class="new-label">NEW</span></span>`;
+                        const newLabelSpan = document.createElement('span');
+                        newLabelSpan.className = 'new-label';
+                        newLabelSpan.textContent = 'NEW';
+                        navItemDiv.appendChild(newLabelSpan);
                     }
 
-                    const navItemDiv = document.createElement('div');
-                    // Menggunakan py-2 px-3 untuk konsistensi spasi vertikal dan horizontal
-                    navItemDiv.className = `nav-list-item cursor-pointer text-sm py-2 px-3 rounded-lg ${fontWeightClass}`;
-                    navItemDiv.style.paddingLeft = `${0.5 + level * 1}rem`;
-                    navItemDiv.innerHTML = `<i class="${iconClass} mr-2"></i> ${contentHTML}`;
                     navItemDiv.dataset.category = key;
 
                     navItemDiv.addEventListener('click', () => {
@@ -1465,31 +1490,39 @@
                     ul.appendChild(li);
 
                     if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-                        renderTaxonomy(data[key], ul, level + 1, fullPathSegment);
+                        renderTaxonomy(data[key], li, level + 1, fullPathSegment);
                     } else if (Array.isArray(data[key])) {
                         data[key].sort().forEach(subItemKey => {
                             const subLi = document.createElement('li');
                             const subItemFullPathSegment = [...fullPathSegment, subItemKey];
 
-                            let subItemContentHTML = `<span>${subItemKey.replace(/_/g, ' ')}</span>`;
-                            // Ini untuk sub-item seperti Gastropoda di dalam Mollusca
+                            const subNavItemDiv = document.createElement('div');
+                            subNavItemDiv.className = `nav-item cursor-pointer text-xs py-0.5 px-3 rounded-lg font-normal`;
+                            subNavItemDiv.style.paddingLeft = `${0.5 + (level + 1) * 1}rem`;
+
+                            const subIconElement = document.createElement('i');
+                            subIconElement.className = `fas fa-arrow-right mr-2 text-xs`;
+                            subNavItemDiv.appendChild(subIconElement);
+
+                            const subTextSpan = document.createElement('span');
+                            subTextSpan.textContent = subItemKey.replace(/_/g, ' ');
+                            subNavItemDiv.appendChild(subTextSpan);
+
                             if (subItemKey === "Gastropoda" && fullPathSegment.includes("Mollusca")) {
-                                subItemContentHTML = `<span>${subItemKey.replace(/_/g, ' ')} <span class="new-label">NEW</span></span>`;
+                                const newLabelSpan = document.createElement('span');
+                                newLabelSpan.className = 'new-label';
+                                newLabelSpan.textContent = 'NEW';
+                                subNavItemDiv.appendChild(newLabelSpan);
                             }
 
-                            const subNavItemDiv = document.createElement('div');
-                            // Menggunakan py-2 px-3 untuk konsistensi spasi vertikal dan horizontal
-                            subNavItemDiv.className = `nav-list-item cursor-pointer text-xs py-2 px-3 rounded-lg font-normal`;
-                            subNavItemDiv.style.paddingLeft = `${0.5 + (level + 1) * 1}rem`;
-                            subNavItemDiv.innerHTML = `<i class="fas fa-arrow-right mr-2 text-xs"></i> ${subItemContentHTML}`;
                             subNavItemDiv.dataset.category = subItemKey;
-                            subLi.appendChild(subNavItemDiv);
-                            ul.appendChild(subLi);
 
                             subNavItemDiv.addEventListener('click', () => {
                                 const categoryToFilter = subNavItemDiv.dataset.category;
                                 window.location.href = `index.html?category=${encodeURIComponent(categoryToFilter)}`;
                             });
+                            subLi.appendChild(subNavItemDiv);
+                            ul.appendChild(subLi);
                         });
                     }
                 });
@@ -1498,7 +1531,7 @@
 
             /* Fungsi untuk memperbarui item taksonomi yang aktif di sidebar */
             function updateActiveTaxonomy(speciesDetail) {
-                const allNavItems = document.querySelectorAll('#taxonomy-nav .nav-list-item, #taxonomy-nav .nav-item-header');
+                const allNavItems = document.querySelectorAll('#taxonomy-nav .nav-item');
                 allNavItems.forEach(item => item.classList.remove('active'));
 
                 let activatedElement = null;
@@ -1535,7 +1568,7 @@
 
                 /* If no specific category or filum was activated, default to "Semua Invertebrata" */
                 if (!activatedElement) {
-                    const allInvertebrataHeader = document.querySelector('.nav-item-header[data-category="Semua Invertebrata"]');
+                    const allInvertebrataHeader = document.querySelector('.nav-item[data-category="Semua Invertebrata"]');
                     if (allInvertebrataHeader) {
                         activatedElement = allInvertebrataHeader;
                         allInvertebrataHeader.classList.add('active');
@@ -2099,8 +2132,8 @@
 
                 /* Tambahkan tombol/header khusus "Semua Invertebrata" */
                 const allInvertebrataDiv = document.createElement('div');
-                allInvertebrataDiv.className = `nav-item-header w-full text-left py-2 px-3 rounded-lg font-bold text-sm bg-[#15803D] text-white cursor-pointer mb-2`; /* Warna Jawel */
-                allInvertebrataDiv.textContent = "Semua Invertebrata";
+                allInvertebrataDiv.className = `nav-item cursor-pointer text-sm py-1 px-3 rounded-lg font-bold text-white mb-2`;
+                allInvertebrataDiv.innerHTML = `<i class="fas fa-globe mr-2"></i> <span>Semua Invertebrata</span>`;
                 allInvertebrataDiv.dataset.category = "Semua Invertebrata";
                 allInvertebrataDiv.addEventListener('click', () => {
                     window.location.href = `index.html?category=${encodeURIComponent("Semua Invertebrata")}`;
@@ -2108,9 +2141,7 @@
                 sidebarNavRoot.appendChild(allInvertebrataDiv);
 
                 /* Render daftar taksonomi utama */
-                const mainTaxonomyUl = document.createElement('ul');
-                sidebarNavRoot.appendChild(mainTaxonomyUl);
-                renderTaxonomy(taxonomyData["Semua Invertebrata"], mainTaxonomyUl, 0, ["Semua Invertebrata"]);
+                renderTaxonomy(taxonomyData["Semua Invertebrata"], sidebarNavRoot, 0, ["Semua Invertebrata"]);
 
                 /* Aktifkan item sidebar dan perbarui breadcrumbs secara dinamis berdasarkan spesies saat ini */
                 updateActiveTaxonomy(speciesDetail);

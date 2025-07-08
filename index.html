@@ -13,138 +13,296 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f0f2f5;
+            /* Prevent horizontal scroll issues due to fixed elements on mobile */
+            overflow-x: hidden;
         }
 
-        /* Mengubah warna latar belakang sidebar menjadi #15803D (jawel) */
-        .sidebar {
+        /* Base Sidebar and Header/Main Content Container */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            overflow: hidden;
+            /* Prevent body scroll when fixed elements are used */
+        }
+
+        /* Sidebar styles */
+        .sidebar-wrapper {
+            width: 250px;
+            /* Fixed width for the sidebar */
+            flex-shrink: 0;
+            /* Prevent shrinking */
+            position: fixed;
+            /* Make it fixed to the viewport */
+            top: 0;
+            left: 0;
+            height: 100vh;
+            /* Full viewport height */
             background-color: #15803D;
-            /* Warna Jawel */
+            /* Jawel Green - Updated color */
             color: white;
+            padding: 1.5rem 1rem;
+            /* Adjusted padding */
+            overflow-y: auto;
+            /* Enable scrolling if sidebar content overflows */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            /* Ensure it's above main content on desktop */
+
+            /* Transitions for mobile sidebar */
+            transition: transform 0.4s ease-in-out;
+            transform: translateX(0);
+            /* Default position on desktop */
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Fill the wrapper's height */
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0.5rem 0;
+            /* Adjusted padding */
+            /* Removed space-x-2 from parent as it's often handled by child elements' margins */
+        }
+
+        .sidebar-header img {
+            height: 50px;
+            width: 50px;
+            margin-right: 0.75rem;
+            /* Space between logo and text */
+        }
+
+        .sidebar-header span {
+            font-size: 1.25rem;
+            /* Slightly larger for prominence */
+            font-weight: 700;
+            /* Bold */
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar nav li {
+            margin-bottom: 0.0625rem;
+            /* Reduced margin-bottom for tighter spacing (1px) */
+        }
+
+        .sidebar nav li .nav-item {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            /* Lighter white for links */
+            padding: 0.3rem 1rem;
+            /* Reduced vertical padding */
+            border-radius: 0.375rem;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar nav li .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Slight overlay on hover */
+            color: white;
+        }
+
+        .sidebar nav li .nav-item.active {
+            background-color: #106F30;
+            /* Darker green for active classification */
+            color: white;
+        }
+
+        .sidebar nav li .nav-item i {
+            margin-right: 1rem;
+            width: 1.25rem;
+            text-align: center;
+        }
+
+        .sidebar-create-account {
+            margin-top: auto;
+            /* Pushes button to the bottom */
+            padding-top: 1rem;
+            /* Space above button */
+        }
+
+        .sidebar-create-account button {
+            background-color: #A855F7;
+            /* Tailwind purple-500 equivalent */
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-create-account button:hover {
+            background-color: #9333EA;
+            /* Darker purple on hover */
+        }
+
+        /* Main content area (Header + Body Content) */
+        .main-content-area-wrapper {
+            flex-grow: 1;
+            /* Takes all remaining width */
+            margin-left: 250px;
+            /* Offset by sidebar width */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            /* Ensure it takes full height */
+            overflow-y: auto;
+            /* Enable scrolling for the whole main area */
+        }
+
+        /* Header styles */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            /* Prevent header from shrinking */
+        }
+
+        header .hamburger-icon {
+            font-size: 1.5rem;
+            color: #4A5568;
+            /* Tailwind gray-700 equivalent */
+            cursor: pointer;
+            display: none;
+            /* Hidden by default on desktop */
+            margin-right: 1rem;
+            /* Space for mobile hamburger */
+        }
+
+        header .search-container {
+            flex-grow: 1;
+            max-width: 400px;
+            /* Limit search bar width */
+            position: relative;
+            margin-right: 1.5rem;
+            /* Space before user actions */
+        }
+
+        header .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            padding-left: 2.5rem;
+            /* Space for icon */
+            border: 1px solid #E2E8F0;
+            /* Tailwind gray-200 */
+            border-radius: 0.375rem;
+            background-color: #F8FAFC;
+            /* Tailwind gray-50 */
+            font-size: 0.9rem;
+            color: #2D3748;
+            /* Tailwind gray-800 */
+        }
+
+        header .search-input::placeholder {
+            color: #A0AEC0;
+            /* Tailwind gray-400 */
+        }
+
+        header .search-input:focus {
+            outline: none;
+            border-color: #4299E1;
+            /* Tailwind blue-500 */
+            box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
+        }
+
+        header .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #A0AEC0;
+            /* Tailwind gray-400 */
+        }
+
+        header .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            /* Space between icons */
+        }
+
+        header .user-actions>button,
+        header .user-actions>a {
+            color: #4A5568;
+            /* Tailwind gray-700 */
+            cursor: pointer;
+            font-size: 1.25rem;
+            /* Icon size */
+            transition: color 0.2s;
+        }
+
+        header .user-actions>button:hover,
+        header .user-actions>a:hover {
+            color: #2D3748;
+            /* Darker on hover */
+        }
+
+        header .user-actions .notification-badge {
+            position: absolute;
+            top: -0.25rem;
+            right: -0.25rem;
+            background-color: #EF4444;
+            /* Tailwind red-500 */
+            color: white;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 9999px;
+        }
+
+        header .user-actions .profile-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 9999px;
+            background-color: #CBD5E0;
+            /* Tailwind gray-300 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #4A5568;
+            overflow: hidden;
+            /* Ensure image fits */
+        }
+
+        header .user-actions .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* Main content area below the header */
+        main.main-content-body {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            /* Layout properties */
+
             padding: 1.5rem;
             border-radius: 0.75rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            flex-shrink: 0;
-            width: 250px;
-            /* Lebar default untuk layar yang lebih besar */
-            height: calc(100vh - 8rem);
-            /* Disesuaikan untuk header + padding utama */
-            overflow-y: auto;
-            /* Mengaktifkan pengguliran vertikal */
+            /* Visual properties */
         }
-
-        /* Penyesuaian seluler untuk sidebar */
-        @media (max-width: 767px) {
-            .sidebar-wrapper {
-                position: fixed;
-                top: 0;
-                left: -70vw;
-                /* Start off-screen, matches new sidebar width */
-                width: 70vw;
-                /* Adjusted to 70% of viewport width for responsiveness */
-                max-width: 250px;
-                /* Max width to prevent it from being too large on wider mobiles */
-                height: 100vh;
-                background-color: #15803D;
-                z-index: 100;
-                /* Highest z-index for the sidebar itself */
-                transition: left 0.4s ease-in-out;
-                /* Smooth transition for sliding, adjusted to 0.4s */
-                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-                padding-top: 5rem;
-                /* Space for fixed header */
-                overflow-y: auto;
-            }
-
-            .sidebar-wrapper.open {
-                left: 0;
-            }
-
-            .sidebar {
-                width: 100%;
-                height: auto;
-                /* Allow content to dictate height */
-                border-radius: 0;
-                /* Remove border-radius for full screen side effect */
-                box-shadow: none;
-                padding-top: 0;
-                /* Adjust padding if needed inside wrapper */
-            }
-
-            .overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 90;
-                /* Between sidebar and header/main content */
-                display: none;
-                /* Hidden by default */
-                transition: opacity 0.3s ease-in-out;
-                /* Add transition for smoother fade */
-                opacity: 0;
-                /* Start hidden */
-            }
-
-            .overlay.active {
-                display: block;
-                opacity: 1;
-                /* Fade in */
-            }
-
-            .hamburger-icon {
-                display: block;
-                /* Show hamburger on mobile */
-                font-size: 1.8rem;
-                color: #2c3e50;
-                /* Dark color for icon */
-                cursor: pointer;
-            }
-
-            /* Hide hamburger icon when sidebar is open */
-            body.sidebar-open .hamburger-icon {
-                display: none;
-            }
-
-            /* Style for the close button inside the sidebar (now also a hamburger icon) */
-            .sidebar-close-btn {
-                display: block;
-                /* Show close button on mobile */
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                font-size: 1.8rem;
-                color: white;
-                cursor: pointer;
-                z-index: 110;
-                /* Ensure it's above sidebar content */
-            }
-
-            /* Adjust main content area when sidebar is open */
-            body.sidebar-open {
-                overflow: hidden;
-                /* Prevent scrolling of the main content */
-            }
-
-            /* --- PERUBAHAN DI SINI: Target elemen <main> --- */
-            body.sidebar-open main {
-                /* When sidebar is open, dim the main content and make it unclickable */
-                pointer-events: none;
-                filter: blur(2px) grayscale(50%);
-                /* Example: blur and dim */
-                transition: filter 0.3s ease-in-out;
-                /* Add transition for smoother effect */
-            }
-
-            /* --- PERUBAHAN BARU DI SINI: Target elemen <header> saat sidebar terbuka --- */
-            body.sidebar-open header {
-                pointer-events: none;
-                filter: blur(2px) grayscale(50%);
-                transition: filter 0.3s ease-in-out;
-            }
-        }
-
 
         .main-content-area {
             background-color: white;
@@ -156,209 +314,309 @@
             flex-grow: 1;
         }
 
-        .nav-item {
-            padding: 0.5rem 0.75rem;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Mengubah warna hover item navigasi menjadi #116631 */
-        .nav-item:hover {
-            background-color: #116631;
-        }
-
-        /* Mengubah warna aktif item navigasi menjadi #116631 */
-        .nav-item.active {
-            background-color: #116631;
-            font-weight: 600;
-        }
-
-        .species-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            overflow: hidden;
+        /* Breadcrumbs container */
+        .breadcrumbs-container {
             background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
-            width: 100%;
-            /* Mengambil lebar penuh dari sel gridnya */
+            margin-bottom: 1.5rem;
+        }
+
+        /* Species Grid Container */
+        .species-grid-container {
+            overflow-y: auto;
+            /* Enable scrolling if content is very long */
+            padding-right: 0.5rem;
+            /* For scrollbar visibility */
+            /* flex-grow: 1; /* Allow grid to fill space, but main-content-body already has flex-grow */
+        }
+
+        /* Species Card Styles */
+        .species-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E2E8F0;
+            /* Added border for clarity */
+            display: flex;
+            flex-direction: column;
+            /* Reverted to column for vertical layout */
+            align-items: center;
             padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .species-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .species-card.clickable {
-            cursor: pointer;
-        }
-
-        .search-input {
-            border: 1px solid #cbd5e0;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
+        .species-card img {
             width: 100%;
-            /* Default ke lebar penuh untuk mobile first */
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #1a4a2a;
-        }
-
-
-        .btn-primary {
-            background-color: #1a4a2a;
-            color: white;
-            padding: 0.75rem 1.5rem;
+            height: 120px;
+            /* Fixed height for images */
+            object-fit: cover;
             border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .species-card .species-info {
+            /* Removed flex properties from here */
+            display: block;
+            /* Reverted to block display */
+            width: 100%;
+            /* Ensure it takes full width */
+        }
+
+        .species-card .species-info p:first-of-type {
             font-weight: 600;
-            transition: background-color 0.2s;
-            border: none;
+            color: #2D3748;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
         }
 
-        .btn-primary:hover {
-            background-color: #2a6a3a;
+        .species-card .species-info p:last-of-type {
+            font-size: 0.875rem;
+            color: #718096;
+            font-style: italic;
         }
 
+        /* Pagination Button Styles */
         .pagination-btn {
-            background-color: #e2e8f0;
-            color: #4a5568;
-            padding: 0.75rem 1rem;
+            background-color: #E2E8F0;
+            /* Tailwind gray-200 */
+            color: #4A5568;
+            /* Tailwind gray-700 */
+            padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            font-weight: 500;
+            cursor: pointer;
             transition: background-color 0.2s;
             border: none;
+            font-weight: 500;
         }
 
-        .pagination-btn:hover {
-            background-color: #cbd5e0;
+        .pagination-btn:hover:not(:disabled) {
+            background-color: #CBD5E0;
+            /* Tailwind gray-300 */
         }
 
         .pagination-btn.active {
             background-color: #F97A00;
+            /* Updated to F97A00 for active page */
             color: white;
         }
 
-        /* Gaya khusus seluler */
+
+        .pagination-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+
+        /* New Label Styles */
+        .new-label {
+            background-color: #F97A00;
+            /* Your custom orange */
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.3rem;
+            margin-left: 0.5rem;
+            /* Ensures space to the left of the label */
+            vertical-align: middle;
+            display: inline-block;
+            /* Ensure it respects vertical-align and margin */
+        }
+
+
+        /* --- MOBILE SPECIFIC STYLES --- */
         @media (max-width: 767px) {
+
+            /* Adjust sidebar for off-canvas effect */
+            .sidebar-wrapper {
+                transform: translateX(-100%);
+                /* Start completely off-screen */
+                box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+                /* More prominent shadow when open */
+            }
+
+            .sidebar-wrapper.open {
+                transform: translateX(0);
+                /* Slide in */
+            }
+
+            /* Header on mobile */
             header {
-                flex-direction: column;
-                /* Stack elements vertically on mobile */
-                justify-content: space-between;
-                align-items: center;
-                padding-bottom: 1rem;
-                position: sticky;
+                position: fixed;
+                /* Fixed header on mobile */
+                width: 100%;
+                /* Full width */
+                left: 0;
                 top: 0;
-                width: 100%;
-                z-index: 80;
-                /* Lower than overlay */
-            }
-
-            /* Adjust spacing for elements within the first div on mobile */
-            /* This div now contains hamburger, logo, title, and profile icon */
-            header>div:first-child {
-                display: flex;
-                /* Use flex to align items */
-                align-items: center;
-                /* Vertically center items */
+                padding: 0.75rem 1rem;
+                justify-content: flex-start;
+                /* Align hamburger to start */
                 gap: 0.5rem;
-                /* Small gap between items */
+                /* Space between hamburger and search */
+                z-index: 60;
+                /* Above main content, below sidebar */
+            }
+
+            header .hamburger-icon {
+                display: block;
+                /* Show hamburger on mobile */
+            }
+
+            header .search-container {
+                margin-right: 0.5rem;
+                /* Less margin on mobile */
+                max-width: none;
+                /* Allow search to take more width */
+            }
+
+            header .user-actions {
+                gap: 0.5rem;
+                /* Smaller gap on mobile */
+            }
+
+            header .user-actions>button,
+            header .user-actions>a {
+                font-size: 1rem;
+                /* Smaller icons */
+            }
+
+            header .user-actions .profile-avatar {
+                width: 30px;
+                /* Smaller avatar */
+                height: 30px;
+            }
+
+
+            /* Main content area wrapper on mobile */
+            .main-content-area-wrapper {
+                margin-left: 0;
+                /* No offset on mobile, handled by fixed header */
+                padding-top: 4rem;
+                /* Offset for fixed header height */
+                height: auto;
+                /* Allow content to dictate height, but overflow-y auto still applies */
+            }
+
+            /* Overlay for when sidebar is open */
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
                 width: 100%;
-                /* Take full width for alignment */
-                justify-content: space-between;
-                /* Space out hamburger, logo, title, and profile */
-                margin-bottom: 0;
-                /* Remove margin-bottom */
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 40;
+                /* Below sidebar, above main content */
+                display: none;
+                opacity: 0;
+                transition: opacity 0.4s ease-in-out;
             }
 
-            header>div:last-child {
-                width: 100%;
-                /* Take full width for search bar */
-                flex-direction: row;
-                justify-content: flex-end;
-                /* Align to end */
-                align-items: center;
-                margin-top: 0.5rem;
-                /* Add some space above search bar */
+            .overlay.active {
+                display: block;
+                opacity: 1;
             }
 
-            .search-input {
-                width: 100%;
-                /* Full width within its container */
+            /* Prevent scrolling of body when sidebar is open */
+            body.sidebar-open {
+                overflow: hidden;
             }
 
-            /* Tata letak area konten utama */
-            .flex-1.flex.p-4 {
-                /* This is the div that contains the sidebar and main content */
-                flex-direction: column;
-                /* Stack sidebar and main content */
-                gap: 1rem;
-                /* Use gap for spacing when stacked */
-                padding: 1rem;
-                /* Adjust padding for smaller screens */
+            /* Dim and disable main content when sidebar is open */
+            body.sidebar-open .main-content-area-wrapper {
+                pointer-events: none;
+                filter: blur(2px) grayscale(50%);
+                transition: filter 0.4s ease-in-out;
             }
 
-            .main-content-area {
-                padding: 1rem;
+            body.sidebar-open header {
+                /* Also dim header */
+                pointer-events: none;
+                filter: blur(2px) grayscale(50%);
+                transition: filter 0.4s ease-in-out;
             }
 
-            /* Kisi yang disesuaikan untuk kartu spesies di layar kecil */
+            /* Sidebar close button inside sidebar (visible only on mobile) */
+            .sidebar-close-btn {
+                position: absolute;
+                top: 1.5rem;
+                right: 1.5rem;
+                font-size: 1.8rem;
+                color: white;
+                cursor: pointer;
+                z-index: 60;
+                /* Above sidebar content */
+                display: block;
+                /* Show on mobile */
+            }
+
+            /* Card grid on mobile */
             #species-grid {
-                /* Target ID secara langsung untuk spesifisitas yang lebih tinggi */
                 grid-template-columns: repeat(2, 1fr);
-                /* Force 2 columns */
+                /* Force 2 columns on mobile */
+                gap: 1rem;
             }
 
             .species-card {
-                padding: 0.5rem;
-                /* Smaller padding for cards */
+                flex-direction: column;
+                /* Keep vertical on mobile */
+                padding: 1rem;
             }
 
             .species-card img {
-                height: 80px;
+                width: 100%;
+                height: 100px;
                 /* Smaller image height for cards */
+                margin-right: 0;
+                /* Remove margin-right */
             }
 
-            .species-card p {
-                font-size: 0.8rem;
-                /* Smaller text for card titles */
+            .species-card .species-info p:first-of-type {
+                font-size: 0.9rem;
             }
 
-            .species-card p:last-child {
-                /* Scientific name */
-                font-size: 0.7rem;
-                /* Even smaller text for scientific name */
+            .species-card .species-info p:last-of-type {
+                font-size: 0.75rem;
             }
         }
 
-        /* Desktop specific: Hide hamburger on larger screens */
+        /* --- DESKTOP SPECIFIC STYLES (Revert mobile-only styles) --- */
         @media (min-width: 768px) {
+            .sidebar-wrapper {
+                transform: translateX(0);
+                /* Ensure it's visible on desktop */
+            }
+
             .hamburger-icon {
                 display: none;
+                /* Hide hamburger on desktop */
             }
 
-            .sidebar-wrapper {
+            header {
                 position: static;
-                width: 250px;
-                /* Original desktop width */
-                height: calc(100vh - 8rem);
-                padding-top: 1.5rem;
-                /* Original padding */
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                /* Not fixed on desktop */
+                width: auto;
+                /* Width determined by flex-grow of parent */
                 left: auto;
-                /* Reset left position for desktop */
+                top: auto;
+                z-index: auto;
+                padding: 1rem 1.5rem;
+                /* Restore desktop padding */
             }
 
-            .sidebar {
-                width: 100%;
-                height: 100%;
-                border-radius: 0.75rem;
+            .main-content-area-wrapper {
+                margin-left: 250px;
+                /* Maintain desktop offset */
+                padding-top: 0;
+                /* No offset needed for header */
             }
 
             .overlay {
@@ -367,96 +625,119 @@
             }
 
             body.sidebar-open {
-                /* Ensure desktop body is not affected */
                 overflow: auto;
+                /* Allow scrolling on desktop */
             }
 
-            body.sidebar-open main {
-                /* Ensure desktop main content is not affected */
+            body.sidebar-open .main-content-area-wrapper,
+            body.sidebar-open header {
                 pointer-events: auto;
                 filter: none;
             }
 
-            /* Hide close button on desktop */
             .sidebar-close-btn {
                 display: none;
+                /* Hide close button on desktop */
+            }
+
+            #species-grid {
+                grid-template-columns: repeat(3, 1fr);
+                /* Default 3 columns for desktop, adjust as needed */
+                gap: 1.5rem;
+            }
+
+            /* Override general card padding if specific to desktop */
+            .species-card {
+                padding: 1rem;
+            }
+
+            .species-card img {
+                width: 100%;
+                height: 120px;
+                /* Restore desktop image height */
             }
         }
 
+        /* Desktop larger screens, like lg:grid-cols-5 */
+        @media (min-width: 1024px) {
+            #species-grid {
+                grid-template-columns: repeat(5, 1fr);
+                /* Reverted to 5 columns on large screens */
+            }
+        }
 
-        /* Gaya untuk label baru */
-        .new-label {
-            background-color: #F97A00;
+        /* Active navigation item styling */
+        #taxonomy-nav .nav-item.active {
+            background-color: #106F30;
+            /* Darker green for active classification */
             color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 0.1rem 0.4rem;
-            border-radius: 0.3rem;
-            margin-left: 0.5rem;
-            vertical-align: middle;
-            /* Sejajarkan dengan garis dasar teks */
+        }
+
+        /* Border on taxonomy sub-levels */
+        #taxonomy-nav ul.space-y-1.ml-4.border-l {
+            border-color: rgba(255, 255, 255, 0.3);
+            /* Lighter border for sub-levels */
         }
     </style>
 </head>
 
 <body>
-    <div class="min-h-screen flex flex-col">
-        <header class="bg-white shadow-md p-4 flex flex-row items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <!-- Hamburger Icon - Visible only on mobile -->
-                <i class="fas fa-bars hamburger-icon mr-4 md:hidden" id="hamburgerMenu"></i>
-                <img src="Logo.png" alt="Logo Invertebrata Kaltara" class="h-10 w-10">
-                <span class="text-lg font-bold text-gray-800 md:text-2xl mr-2">Invertebrata Kaltara</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative w-full md:w-80">
-                    <input type="text" placeholder="Cari spesies..." class="search-input pr-10" id="searchInput">
-                    <i
-                        class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"></i>
-                </div>
-                <!-- Profile icon moved here -->
-                <a href="#"
-                    class="relative w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
-                    DA
-                </a>
-            </div>
-        </header>
+    <div class="dashboard-container">
+        <div class="sidebar-wrapper" id="sidebarWrapper">
+            <i class="fas fa-times sidebar-close-btn md:hidden" id="sidebarCloseBtn"></i>
 
-        <div class="flex-1 flex flex-col md:flex-row p-4 gap-4 md:space-x-4">
-            <!-- Sidebar Wrapper (new element for mobile sidebar functionality) -->
-            <div class="sidebar-wrapper" id="sidebarWrapper">
-                <!-- Close button for mobile sidebar (now also a hamburger icon) -->
-                <i class="fas fa-bars sidebar-close-btn md:hidden" id="sidebarCloseBtn"></i>
-                <aside class="sidebar">
-                    <nav id="taxonomy-nav">
-                    </nav>
-                </aside>
-            </div>
-            <!-- End Sidebar Wrapper -->
-
-            <main class="main-content-area flex-1">
-                <div class="bg-white p-4 rounded-xl shadow-sm mb-4">
-                    <span id="breadcrumbs" class="text-gray-600">Semua Invertebrata</span>
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <img src="images/logo.png" alt="Invertebrata Kaltara Logo">
+                    <span>Invertebrata Kaltara</span>
                 </div>
 
-                <div class="overflow-y-auto pr-2 flex-grow">
-                    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="species-grid">
+                <nav id="taxonomy-nav" class="flex-grow">
+                </nav>
+            </aside>
+        </div>
+
+        <div class="main-content-area-wrapper">
+            <header>
+                <i class="fas fa-bars hamburger-icon md:hidden" id="hamburgerMenu"></i>
+
+                <div class="search-container">
+                    <input type="text" placeholder="Cari spesies..." class="search-input" id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+
+                <div class="user-actions">
+                    <a href="#" class="profile-avatar">
+                        <img src="images/profil.jpg" alt="DA">
+                    </a>
+                </div>
+            </header>
+
+            <main class="main-content-body flex-1">
+                <div class="main-content-area">
+
+                    <div class="p-4 breadcrumbs-container">
+                        <span id="breadcrumbs" class="text-gray-600">Semua Invertebrata</span>
                     </div>
-                </div>
 
-                <div class="flex justify-center items-center space-x-2 mt-6" id="pagination-controls">
+                    <div class="species-grid-container overflow-y-auto pr-2 flex-grow ">
+                        <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="species-grid">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center items-center space-x-2 mt-6" id="pagination-controls">
+                    </div>
                 </div>
             </main>
         </div>
     </div>
 
-    <!-- Overlay (new element for mobile sidebar) -->
     <div class="overlay" id="sidebarOverlay"></div>
 
     <script>
+        // --- DATA ---
         const taxonomyData = {
             "Semua Invertebrata": {
-                // Mengubah Protozoa menjadi array langsung dari kelas-kelasnya
                 "Protozoa": [
                     "Amoebozoa",
                     "SAR (Stramenopiles, Alveolata, Rhizaria)",
@@ -517,97 +798,65 @@
             { id: 31, name: "Nyamuk Aedes aegypti", scientificName: "Aedes aegypti", imageUrl: "images/Nyamuk Aedes aegypti.webp", filum: "Arthropoda", subFilum: "Hexapoda", category: "Insecta" }
         ];
 
-        let currentPage = 1;
-        const itemsPerPage = 15;
-
+        // --- DOM Elements ---
         const taxonomyNav = document.getElementById('taxonomy-nav');
         const speciesGrid = document.getElementById('species-grid');
         const paginationControls = document.getElementById('pagination-controls');
         const breadcrumbsSpan = document.getElementById('breadcrumbs');
-
         const searchInput = document.getElementById('searchInput');
 
+        // --- State Variables ---
+        let currentPage = 1;
+        const itemsPerPage = 15;
         let currentFilterCategory = "Semua Invertebrata";
         let currentSearchQuery = "";
 
-        // Hamburger Menu Elements
+        // --- Mobile Menu Elements ---
         const hamburgerMenu = document.getElementById('hamburgerMenu');
         const sidebarWrapper = document.getElementById('sidebarWrapper');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn'); // Get the new close button
-        const mainContentArea = document.querySelector('main'); // Select the main content area
+        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
 
-        // Function to open the sidebar
+
+        // --- Functions ---
+
+        // Mobile Sidebar Toggle Functions
         function openSidebar() {
             sidebarWrapper.classList.add('open');
             sidebarOverlay.classList.add('active');
-            document.body.classList.add('sidebar-open'); // Add class to body to prevent scrolling and dim main content
+            document.body.classList.add('sidebar-open');
         }
 
-        // Function to close the sidebar
         function closeSidebar() {
             sidebarWrapper.classList.remove('open');
             sidebarOverlay.classList.remove('active');
-            document.body.classList.remove('sidebar-open'); // Remove class from body
+            document.body.classList.remove('sidebar-open');
         }
-
-        // Event Listeners for Hamburger and Overlay
-        if (hamburgerMenu) {
-            hamburgerMenu.addEventListener('click', openSidebar);
-        }
-        if (sidebarOverlay) {
-            sidebarOverlay.addEventListener('click', closeSidebar);
-        }
-        // Event listener for the new close button
-        if (sidebarCloseBtn) {
-            sidebarCloseBtn.addEventListener('click', closeSidebar);
-        }
-
-        // Close sidebar when a navigation item is clicked
-        taxonomyNav.addEventListener('click', (event) => {
-            if (event.target.closest('.nav-item') || event.target.closest('.nav-item-header')) {
-                // Check if it's a mobile view before closing sidebar
-                if (window.innerWidth < 768) {
-                    closeSidebar();
-                }
-            }
-        });
-
-        // Add a listener to close sidebar on resize if it becomes desktop view
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                closeSidebar(); // Ensure sidebar is closed when resizing to desktop
-            }
-        });
-
 
         /**
-         * Fungsi pembantu untuk menemukan jalur lengkap kategori dalam data taksonomi.
-         * Ini akan mencari baik kunci (kategori induk) maupun nilai (kategori daun).
-         * @param {object|Array|string} data - Objek data taksonomi (atau bagian darinya).
-         * @param {string} targetCategory - Kategori yang ingin dicari jalurnya.
-         * @param {Array<string>} currentPath - Jalur saat ini yang terakumulasi selama rekursi.
-         * @returns {Array<string>|null} - Jalur lengkap sebagai array string, atau null jika tidak ditemukan.
+         * Helper function to find the full path of a category in the taxonomy data.
+         * @param {object|Array|string} data - The taxonomy data object (or a part of it).
+         * @param {string} targetCategory - The category to find the path for.
+         * @param {Array<string>} currentPath - The current path accumulated during recursion.
+         * @returns {Array<string>|null} - The full path as an array of strings, or null if not found.
          */
         function findCategoryPath(data, targetCategory, currentPath = []) {
-            if (typeof data === 'string') { /* If data is a string (leaf node) */
+            if (typeof data === 'string') {
                 if (data === targetCategory) {
                     return [...currentPath, data];
                 }
-            } else if (Array.isArray(data)) { /* If data is an array */
-                /* Check if targetCategory is directly in this array */
+            } else if (Array.isArray(data)) {
                 if (data.includes(targetCategory)) {
                     return [...currentPath, targetCategory];
                 }
-                /* Recurse into array elements if they are objects (shouldn't happen with current data structure) */
                 for (const item of data) {
                     const foundPath = findCategoryPath(item, targetCategory, currentPath);
                     if (foundPath) return foundPath;
                 }
-            } else if (typeof data === 'object' && data !== null) { /* If data is an object */
+            } else if (typeof data === 'object' && data !== null) {
                 for (const key in data) {
                     const newPath = [...currentPath, key];
-                    if (key === targetCategory) { /* Check if the key itself is the target */
+                    if (key === targetCategory) {
                         return newPath;
                     }
                     const foundPath = findCategoryPath(data[key], targetCategory, newPath);
@@ -619,16 +868,14 @@
             return null;
         }
 
-
         /**
-         * Fungsi untuk memeriksa apakah suatu kategori (categoryToCheck) adalah bagian dari subtree dari
-         * kategori filter saat ini (currentFilterCategory) dalam pohon taksonomi penuh.
-         * @param {string} speciesFilum - Filum spesies.
-         * @param {string|null} speciesSubFilum - Subfilum spesies (jika ada).
-         * @param {string} speciesCategory - Kategori/Kelas spesies.
-         * @param {string} currentFilterCategory - Kategori yang sedang dipilih di sidebar.
-         * @param {object} fullTaxonomyTree - Pohon taksonomi lengkap (biasanya taxonomyData["Semua Invertebrata"]).
-         * @returns {boolean} - True jika speciesCategory adalah turunan atau sama dengan currentFilterCategory, false jika tidak.
+         * Checks if a species' category belongs to the subtree of the current filter category.
+         * @param {string} speciesFilum - The phylum of the species.
+         * @param {string|null} speciesSubFilum - The subphylum of the species (if any).
+         * @param {string} speciesCategory - The category/class of the species.
+         * @param {string} currentFilterCategory - The currently selected category in the sidebar.
+         * @param {object} fullTaxonomyTree - The complete taxonomy tree (e.g., taxonomyData["Semua Invertebrata"]).
+         * @returns {boolean} - True if speciesCategory is a descendant or the same as currentFilterCategory, false otherwise.
          */
         function isCategoryInSubtree(speciesFilum, speciesSubFilum, speciesCategory, currentFilterCategory, fullTaxonomyTree) {
             if (currentFilterCategory === "Semua Invertebrata") {
@@ -640,21 +887,16 @@
                 return false;
             }
 
-            // Bangun path lengkap untuk spesies dari filum, subfilum, dan kategori/kelasnya
             let speciesPath = [];
-            // Mulai dari filum
             if (fullTaxonomyTree[speciesFilum]) {
                 speciesPath.push(speciesFilum);
                 let currentLevel = fullTaxonomyTree[speciesFilum];
 
-                // Jika ada subfilum (hanya untuk Arthropoda)
                 if (speciesFilum === "Arthropoda" && speciesSubFilum && typeof currentLevel === 'object' && !Array.isArray(currentLevel) && currentLevel[speciesSubFilum]) {
                     speciesPath.push(speciesSubFilum);
                     currentLevel = currentLevel[speciesSubFilum];
                 }
 
-                // Jika kategori spesies adalah kunci di level saat ini (misal Kelas langsung di Filum atau Supergrup di Protozoa)
-                // Atau jika itu adalah item langsung dalam array (seperti kelas di Cnidaria atau Protozoa)
                 if (typeof currentLevel === 'object' && !Array.isArray(currentLevel) && currentLevel[speciesCategory]) {
                     speciesPath.push(speciesCategory);
                 } else if (Array.isArray(currentLevel) && currentLevel.includes(speciesCategory)) {
@@ -662,7 +904,6 @@
                 }
             }
 
-            // Bandingkan filterPath dengan speciesPath
             if (filterPath.length <= speciesPath.length) {
                 let isPrefix = true;
                 for (let i = 0; i < filterPath.length; i++) {
@@ -673,15 +914,13 @@
                 }
                 return isPrefix;
             }
-
             return false;
         }
 
-        /* Fungsi untuk merender navigasi taksonomi */
+        // Renders the taxonomy navigation in the sidebar
         function renderTaxonomy(data, parentElement, level = 0, currentPath = []) {
             const ul = document.createElement('ul');
-            // Mengubah warna border di sidebar agar sesuai dengan warna Jawel
-            ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-gray-400 pl-2' : ''}`;
+            ul.className = `space-y-1 ${level > 0 ? 'ml-4 border-l border-green-500 pl-2' : ''}`; // Adjust border color
 
             Object.keys(data).sort().forEach(key => {
                 const li = document.createElement('li');
@@ -692,40 +931,42 @@
                 let iconClass = '';
                 let contentHTML = `<span>${displayKey}</span>`;
 
-                if (key === "Semua Invertebrata") { // Root
+                if (key === "Semua Invertebrata") {
                     iconClass = 'fas fa-globe';
                     fontWeightClass = 'font-bold';
-                } else if (key === "Arthropoda") { // Kasus spesifik untuk Arthropoda (ikon folder)
+                } else if (key === "Arthropoda") {
                     iconClass = 'fas fa-folder';
                     fontWeightClass = 'font-bold';
                 } else if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
-                    // Ini menangani objek/folder lain yang merupakan induk taksonomi (misal: Chelicerata, Myriapoda, Crustacea, Hexapoda)
-                    iconClass = 'fas fa-folder'; // Ikon folder untuk semua node induk/cabang lainnya
-                    if (level === 0) { // Jika ini adalah Filum lain (selain Protozoa)
+                    iconClass = 'fas fa-folder';
+                    if (level === 0) {
                         fontWeightClass = 'font-bold';
-                    } else { // Jika ini adalah Subfilum
+                    } else {
                         fontWeightClass = 'font-semibold';
                     }
                 } else if (Array.isArray(data[key])) {
-                    // Ini menangani kategori yang merupakan induk langsung dari array string (Filum yang langsung berisi Kelas)
-                    // Contoh: Protozoa, Cnidaria, Echinodermata, Platyhelminthes, Annelida, Mollusca
-                    iconClass = 'fas fa-sitemap'; // Ikon sitemap untuk filum yang langsung berisi kelas
+                    iconClass = 'fas fa-sitemap';
                     fontWeightClass = 'font-bold';
                 } else {
-                    // Ini menangani node daun yang merupakan string langsung dalam struktur taxonomyData (misal Kelas)
-                    iconClass = 'fas fa-arrow-right'; // Ikon panah kanan untuk semua node daun
+                    iconClass = 'fas fa-arrow-right';
                     fontWeightClass = 'font-normal';
                 }
 
-                // Tambahkan label "NEW" khusus untuk Gastropoda di bawah Mollusca
-                if (key === "Gastropoda" && fullPathSegment.includes("Mollusca")) {
-                    contentHTML = `<span>${displayKey} <span class="new-label">NEW</span></span>`;
-                }
-
                 const navItemDiv = document.createElement('div');
-                navItemDiv.className = `nav-item cursor-pointer text-sm py-2 px-3 rounded-lg ${fontWeightClass}`;
+                // Adjusted padding to reduce vertical spacing
+                navItemDiv.className = `nav-item cursor-pointer text-sm py-1 px-3 rounded-lg ${fontWeightClass}`;
                 navItemDiv.style.paddingLeft = `${0.5 + level * 1}rem`;
-                navItemDiv.innerHTML = `<i class="${iconClass} mr-2"></i> ${contentHTML}`;
+
+                // Create icon element
+                const iconElement = document.createElement('i');
+                iconElement.className = `${iconClass} mr-2`;
+                navItemDiv.appendChild(iconElement);
+
+                // Create text span
+                const textSpan = document.createElement('span');
+                textSpan.textContent = displayKey;
+                navItemDiv.appendChild(textSpan);
+
                 navItemDiv.dataset.category = key;
 
 
@@ -735,28 +976,43 @@
                     filterAndRenderSpecies();
                     updateActiveTaxonomy(navItemDiv);
                     updateBreadcrumbs(fullPathSegment);
+                    closeSidebar(); // Close sidebar on item click for mobile
                     updateSearchPlaceholder();
                 });
 
                 li.appendChild(navItemDiv);
                 ul.appendChild(li);
 
-                // Panggilan rekursif untuk sub-level
                 if (typeof data[key] === 'object' && !Array.isArray(data[key])) {
                     renderTaxonomy(data[key], li, level + 1, fullPathSegment);
                 } else if (Array.isArray(data[key])) {
                     data[key].sort().forEach(subItemKey => {
                         const subLi = document.createElement('li');
                         const subItemFullPathSegment = [...fullPathSegment, subItemKey];
-                        let subItemContentHTML = `<span>${subItemKey.replace(/_/g, ' ')}</span>`;
 
                         const subNavItemDiv = document.createElement('div');
-                        // Kelas-kelas di bawah filum seperti Protozoa, Cnidaria, dll.
-                        subNavItemDiv.className = `nav-item cursor-pointer text-xs py-1 px-3 rounded-lg font-normal`;
+                        // Adjusted padding to reduce vertical spacing
+                        subNavItemDiv.className = `nav-item cursor-pointer text-xs py-0.5 px-3 rounded-lg font-normal`;
                         subNavItemDiv.style.paddingLeft = `${0.5 + (level + 1) * 1}rem`;
 
-                        // Semua item langsung di bawah array harus fas fa-arrow-right
-                        subNavItemDiv.innerHTML = `<i class="fas fa-arrow-right mr-2 text-xs"></i> ${subItemContentHTML}`;
+                        // Create icon for sub-item
+                        const subIconElement = document.createElement('i');
+                        subIconElement.className = `fas fa-arrow-right mr-2 text-xs`;
+                        subNavItemDiv.appendChild(subIconElement);
+
+                        // Create text span for sub-item
+                        const subTextSpan = document.createElement('span');
+                        subTextSpan.textContent = subItemKey.replace(/_/g, ' ');
+                        subNavItemDiv.appendChild(subTextSpan);
+
+                        // Add "NEW" label for Gastropoda as a sibling to the text span
+                        if (subItemKey === "Gastropoda" && fullPathSegment.includes("Mollusca")) {
+                            const newLabelSpan = document.createElement('span');
+                            newLabelSpan.className = 'new-label';
+                            newLabelSpan.textContent = 'NEW';
+                            subNavItemDiv.appendChild(newLabelSpan);
+                        }
+
                         subNavItemDiv.dataset.category = subItemKey;
 
                         subNavItemDiv.addEventListener('click', () => {
@@ -765,6 +1021,7 @@
                             filterAndRenderSpecies();
                             updateActiveTaxonomy(subNavItemDiv);
                             updateBreadcrumbs(subItemFullPathSegment);
+                            closeSidebar(); // Close sidebar on item click for mobile
                             updateSearchPlaceholder();
                         });
                         subLi.appendChild(subNavItemDiv);
@@ -775,18 +1032,17 @@
             parentElement.appendChild(ul);
         }
 
-        /* Fungsi untuk memperbarui item taksonomi yang aktif */
+        // Updates the active taxonomy item in the sidebar
         function updateActiveTaxonomy(activeElement) {
             const allNavItems = document.querySelectorAll('#taxonomy-nav .nav-item');
             allNavItems.forEach(item => item.classList.remove('active'));
             if (activeElement) {
                 activeElement.classList.add('active');
-                /* Gulir ke tampilan jika elemen tidak terlihat */
                 activeElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }
 
-        /* Fungsi untuk merender kartu spesies */
+        // Renders species cards into the grid
         function renderSpeciesCards(speciesToRender) {
             speciesGrid.innerHTML = '';
             const startIndex = (currentPage - 1) * itemsPerPage;
@@ -798,22 +1054,25 @@
                 return;
             }
 
+            // Apply grid classes dynamically based on screen size or use Tailwind's responsive classes
+            speciesGrid.className = 'grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5'; /* Reverted grid columns */
+
             paginatedSpecies.forEach(species => {
                 const card = document.createElement('div');
-                card.className = 'species-card flex flex-col items-center p-2';
-
+                card.className = 'species-card';
                 card.dataset.id = species.id;
 
                 card.innerHTML = `
-                    <img src="${species.imageUrl}" alt="${species.name}" class="w-full h-32 object-cover mb-2 rounded-xl">
-                    <p class="text-base font-semibold text-gray-800 text-center">${species.name}</p>
-                    <p class="text-xs text-gray-500 text-center">${species.scientificName}</p>
+                    <img src="${species.imageUrl}" alt="${species.name}">
+                    <div class="species-info">
+                        <p>${species.name}</p>
+                        <p>${species.scientificName}</p>
+                    </div>
                 `;
                 speciesGrid.appendChild(card);
 
-                /* Kondisi khusus: hanya tambahkan event listener dan gaya pointer jika itu Bekicot */
                 if (species.name === "Bekicot") {
-                    card.classList.add('clickable'); /* Tambahkan kelas untuk gaya tertentu jika diperlukan */
+                    card.classList.add('clickable');
                     card.addEventListener('click', () => {
                         window.location.href = `detailSpesiesLogin.html?id=${species.id}`;
                     });
@@ -821,7 +1080,7 @@
             });
         }
 
-        /* Fungsi untuk merender kontrol paginasi */
+        // Renders pagination controls
         function renderPagination(totalItems) {
             paginationControls.innerHTML = '';
             const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -866,7 +1125,7 @@
             paginationControls.appendChild(nextButton);
         }
 
-        /* Fungsi untuk memfilter spesies berdasarkan kategori dan pencarian */
+        // Filters and renders species based on current category and search query
         function filterAndRenderSpecies() {
             let filteredSpecies = speciesData.filter(species => {
                 const fullTaxonomyRoot = taxonomyData["Semua Invertebrata"];
@@ -878,7 +1137,6 @@
                 return passesCategoryFilter && matchesSearch;
             });
 
-            /* --- PENTING: Lakukan pengurutan di sini setelah pemfilteran --- */
             filteredSpecies.sort((a, b) => {
                 const nameA = a.name.toLowerCase();
                 const nameB = b.name.toLowerCase();
@@ -891,7 +1149,7 @@
             renderPagination(filteredSpecies.length);
         }
 
-        /* --- FUNGSI UNTUK MENGUPDATE PLACEHOLDER PENCARIAN --- */
+        // Updates the search input placeholder text
         function updateSearchPlaceholder() {
             let placeholderText = "Cari spesies...";
             if (currentFilterCategory && currentFilterCategory !== "Semua Invertebrata") {
@@ -900,14 +1158,14 @@
             searchInput.placeholder = placeholderText;
         }
 
-        /* Fungsi untuk memperbarui breadcrumbs */
+        // Updates the breadcrumbs navigation
         function updateBreadcrumbs(currentPathArray = null) {
             breadcrumbsSpan.innerHTML = '';
             let path = currentPathArray;
 
             if (!path) {
-                const fullTaxonomyWithRoot = { "Semua Invertebrata": taxonomyData["Semua Invertebrata"] };
-                path = findCategoryPath(fullTaxonomyWithRoot, currentFilterCategory, []);
+                const fullTaxonomyRoot = { "Semua Invertebrata": taxonomyData["Semua Invertebrata"] };
+                path = findCategoryPath(fullTaxonomyRoot, currentFilterCategory, []);
                 if (!path) {
                     path = ["Semua Invertebrata"];
                 }
@@ -949,14 +1207,44 @@
         }
 
 
-        /* Event listener untuk input pencarian */
+        // --- Event Listeners ---
+
+        // Hamburger Menu Event Listeners
+        if (hamburgerMenu) {
+            hamburgerMenu.addEventListener('click', openSidebar);
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+        if (sidebarCloseBtn) {
+            sidebarCloseBtn.addEventListener('click', closeSidebar);
+        }
+
+        // Close sidebar when a navigation item is clicked (on mobile)
+        taxonomyNav.addEventListener('click', (event) => {
+            if (event.target.closest('.nav-item')) {
+                if (window.innerWidth < 768) {
+                    closeSidebar();
+                }
+            }
+        });
+
+        // Close sidebar on resize if it becomes desktop view
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                closeSidebar();
+            }
+        });
+
+        // Search input event listener
         searchInput.addEventListener('input', (event) => {
             currentSearchQuery = event.target.value;
             currentPage = 1;
             filterAndRenderSpecies();
         });
 
-        /* Inisialisasi aplikasi saat DOM dimuat */
+
+        // --- Initialization on DOM Load ---
         document.addEventListener('DOMContentLoaded', () => {
             taxonomyNav.innerHTML = '';
             renderTaxonomy(taxonomyData, taxonomyNav);
